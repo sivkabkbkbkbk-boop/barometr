@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Метеодневник — приглашение</title>
+<meta property="og:title" content="Метеодневник: приглашение в друзья">
+<meta property="og:description" content="Сравнивайте самочувствие с друзьями и смотрите, как на него влияет погода.">
+<style>
+  :root{color-scheme:dark}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1726;color:#eef3f8;font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px;box-sizing:border-box;text-align:center}
+  .box{max-width:380px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  .em{font-size:44px;letter-spacing:6px}
+  h1{font-size:21px;margin:0}
+  p{margin:0;color:#9fb1c5;font-size:14px}
+  a.btn{display:block;width:100%;box-sizing:border-box;background:#eef3f8;color:#0d1726;text-decoration:none;font-weight:600;padding:13px 18px;border-radius:12px}
+  a.btn.ghost{background:transparent;color:#eef3f8;border:1px solid rgba(238,243,248,.2)}
+  small{color:#9fb1c5;font-size:12px}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <div class="em">😊😐😣</div>
+  <h1 id="h">Приглашение в «Метеодневник»</h1>
+  <p id="t">Открываю приложение…</p>
+</div>
+<script>
+(function(){
+  var h=new URLSearchParams(location.hash.slice(1)), k=h.get("k"), n=h.get("n")||"";
+  var box=document.getElementById("box");
+  if(!k){ document.getElementById("t").textContent="В ссылке нет данных приглашения. Попросите друга отправить её ещё раз."; return; }
+  var q="k="+encodeURIComponent(k)+"&n="+encodeURIComponent(n);
+  var intent="intent://friend?"+q+"#Intent;scheme=barometr;package=ru.barometr.neba;end";
+  var who=n?("<b>"+n.replace(/[<>&"]/g,"")+"</b>"):"Ваш друг";
+  box.innerHTML='<div class="em">😊😐😣</div><h1>'+who+' приглашает в «Метеодневник»</h1>'+
+    '<p>Отмечайте самочувствие одним касанием, сравнивайте с друзьями и смотрите, как на него влияет погода.</p>'+
+    '<a class="btn" href="'+intent+'">Открыть в приложении</a>'+
+    '<a class="btn ghost" href="https://github.com/sivkabkbkbkbk-boop/barometr-app/releases/latest">Скачать приложение для Android</a>'+
+    '<a class="btn ghost" id="web" href="./">Открыть веб-версию</a>'+
+    '<small>После установки вернитесь к этому сообщению и нажмите «Открыть в приложении».</small>';
+  document.getElementById("web").addEventListener("click",function(){ try{ localStorage.setItem("pendingFriend", location.href); }catch(e){} });
+  if(/Android/i.test(navigator.userAgent)) setTimeout(function(){ location.href=intent; }, 300);
+})();
+</script>
+</body>
+</html>

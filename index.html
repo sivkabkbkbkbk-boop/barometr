@@ -6,7 +6,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Барометр неба</title>
+<title>Метеодневник</title>
 <meta name="theme-color" content="#0d1726">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -240,6 +240,7 @@ footer a{color:var(--muted)}
 .rmap .tiles img{position:absolute;width:256px;height:256px;pointer-events:none}
 .rmap .tiles:not(.labels) img{filter:brightness(1.9) contrast(1.05) saturate(1.2)}
 .rmap .labels img{opacity:.9}
+.rmap .tiles img.osm{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.6)!important}
 .rmap .labels{z-index:1}
 .rmap .pin{z-index:1}
 .rmap canvas{width:100%;height:100%;pointer-events:none}
@@ -259,6 +260,57 @@ footer a{color:var(--muted)}
 .rtime b{color:var(--press);font-weight:500}
 .rleg{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--muted);margin-top:6px}
 .rleg .lg{flex:1;height:6px;border-radius:6px;background:linear-gradient(90deg,rgba(210,220,235,.35),#8fd3ff,#3d8bff,#2f5bff,#f2c94c,#ff7a6b)}
+.ysync{background:var(--sheet-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.ysync .yh{display:flex;align-items:center;gap:10px}
+.ysync .ylogo{width:28px;height:28px;border-radius:8px;background:#fc3f1d;color:#fff;font-weight:700;display:grid;place-items:center;font-size:17px;flex:none;font-family:Arial,sans-serif}
+.ysync .yt{font-weight:600;font-size:14px}
+.ysync .ys{font-size:12px;color:var(--muted)}
+.ysync .ys.ok{color:#8be38f}.ysync .ys.bad{color:var(--kp-hi)}
+.ysync .row{display:flex;gap:8px;flex-wrap:wrap}
+.ysync input{flex:1;min-width:0;background:var(--sheet);border:1px solid var(--glass-line);border-radius:10px;padding:9px 10px;color:var(--ink);font-family:var(--f-mono);font-size:12.5px}
+.ysync ol{margin:0;padding-left:18px;font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.ysync ol b{color:var(--ink)}
+.ysync a{color:var(--press)}
+.ysync .btn{align-self:auto}
+/* mood popup and chip */
+.mpop{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;padding:16px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));background:rgba(3,8,15,.55);opacity:0;transition:opacity .25s}
+.mpop.open{opacity:1}
+.mpop .mcard{width:100%;max-width:440px;background:var(--sheet);border:1px solid var(--glass-line);border-radius:22px;padding:18px 16px 12px;box-shadow:0 20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:14px;transform:translateY(30px) scale(.96);transition:transform .35s cubic-bezier(.2,1.2,.3,1);transform-origin:center}
+.mpop.open .mcard{transform:none}
+.mpop .mq{font-family:var(--f-disp);font-weight:500;font-size:18px;text-align:center;width:100%}
+.mpop .mhead{justify-content:center}
+.mpop .mbtn{padding:14px 4px 10px}
+.mpop .mbtn .e{font-size:40px}
+.mfoot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mfoot .mlink{font-size:13px}
+#moodLater{color:var(--muted)}
+.mcard.fly{transition:transform .5s cubic-bezier(.5,0,.2,1), opacity .5s ease-in!important}
+.mchip{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:12;width:56px;height:56px;border-radius:50%;border:1px solid var(--glass-line);background:var(--sheet);box-shadow:0 8px 24px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;padding:0}
+.mchip .e{font-size:30px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.mchip.ask{border-color:var(--press)}
+.mchip.ask::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--press);animation:ping 2s ease-out infinite}
+.mchip.land{animation:land .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes land{0%{transform:scale(.4)}60%{transform:scale(1.18)}100%{transform:none}}
+.mchip:active{transform:scale(.93)}
+.mchip:focus-visible{outline:2px solid var(--press);outline-offset:3px}
+footer{padding-bottom:64px}
+/* friends */
+.friends{display:flex;flex-direction:column;gap:10px}
+.fbox{background:var(--sheet-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.fbox .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.fbox input{flex:1;min-width:0;background:var(--sheet);border:1px solid var(--glass-line);border-radius:10px;padding:9px 10px;color:var(--ink);font-size:13.5px}
+.fbox .hint{margin:0}
+.fgrid{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fgrid table{border-collapse:separate;border-spacing:2px;font-size:12px}
+.fgrid th{font-family:var(--f-mono);font-weight:400;color:var(--muted);font-size:9.5px;padding:0 1px;min-width:20px}
+.fgrid th.nm{text-align:left;min-width:0;font-family:var(--f-body);font-size:12px;color:var(--ink);font-weight:600;padding-right:6px;max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:sticky;left:0;background:var(--sheet-2);z-index:1}
+.fgrid th.nm small{display:block;font-weight:400;color:var(--muted);font-size:10px}
+.fgrid td{width:22px;height:22px;text-align:center;border-radius:6px;background:rgba(238,243,248,.05);font-size:15px;line-height:22px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.fgrid td.today{outline:1px solid var(--glass-line)}
+.fins{display:flex;flex-direction:column;gap:6px}
+.fin{font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.fin b{color:var(--ink)}
+.fin .x{border:0;background:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 4px;flex:none}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;z-index:40;background:var(--ink);color:#0d1726;border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:500;max-width:calc(100% - 48px);transition:all .3s;pointer-events:none}
 .toast.show{transform:translate(-50%,0);opacity:1}
 [hidden]{display:none!important}
@@ -302,19 +354,6 @@ footer a{color:var(--muted)}
     <div class="cond"><div class="icon" id="cicon"></div><div class="txt" id="ctext"></div></div>
   </section>
 
-  <section class="card mood fade" id="moodCard" style="animation-delay:.04s" aria-label="Самочувствие">
-    <div class="mhead"><div class="mq">Как вы себя чувствуете сегодня?</div><div class="mnote" id="mstreak"></div></div>
-    <div class="mbtns" id="mbtns">
-      <button class="mbtn" data-mood="3" style="--mc:#8be38f" aria-pressed="false"><span class="e">😊</span><span class="l">Хорошо</span></button>
-      <button class="mbtn" data-mood="2" style="--mc:#f2c94c" aria-pressed="false"><span class="e">😐</span><span class="l">Так себе</span></button>
-      <button class="mbtn" data-mood="1" style="--mc:#ff7a6b" aria-pressed="false"><span class="e">😣</span><span class="l">Плохо</span></button>
-    </div>
-    <div class="remind" id="remind" hidden>
-      <label class="rsw"><input type="checkbox" id="remOn"><span class="knob" aria-hidden="true"></span>🔔 Напоминать каждый день в</label>
-      <input type="time" id="remTime" value="20:00" aria-label="Время напоминания">
-    </div>
-    <button class="mlink" id="moodOpen">Самочувствие и погода ›</button>
-  </section>
 
   <div class="grid2">
     <section class="card fade tap" style="animation-delay:.08s" role="button" tabindex="0" data-metric="press" aria-label="Давление: открыть историю">
@@ -358,6 +397,19 @@ footer a{color:var(--muted)}
   <footer><button class="btn ghost" id="installBtn" hidden>Установить приложение</button><div>Погода и архив: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · Kp: <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA</a>, <a href="https://kp.gfz.de/" target="_blank" rel="noopener">GFZ</a></div></footer>
 </main>
 
+<div class="mpop" id="moodPop" hidden>
+  <div class="mcard" id="moodCardPop" role="dialog" aria-modal="true" aria-labelledby="mq">
+    <div class="mhead"><div class="mq" id="mq">Как вы себя чувствуете сегодня?</div></div>
+    <div class="mbtns" id="mbtns">
+      <button class="mbtn" data-mood="3" style="--mc:#8be38f" aria-pressed="false"><span class="e">😊</span><span class="l">Хорошо</span></button>
+      <button class="mbtn" data-mood="2" style="--mc:#f2c94c" aria-pressed="false"><span class="e">😐</span><span class="l">Так себе</span></button>
+      <button class="mbtn" data-mood="1" style="--mc:#ff7a6b" aria-pressed="false"><span class="e">😣</span><span class="l">Плохо</span></button>
+    </div>
+    <div class="mfoot"><button class="mlink" id="moodLater">Позже</button><span class="mnote" id="mstreak"></span><button class="mlink" id="moodOpen">Самочувствие и погода ›</button></div>
+  </div>
+</div>
+<button class="mchip" id="moodChip" hidden aria-label="Самочувствие сегодня"><span class="e" id="moodChipE">🙂</span></button>
+
 <div class="scrim" id="scrim" hidden></div>
 
 <section class="sheet" id="hist" role="dialog" aria-modal="true" aria-labelledby="histTitle" hidden>
@@ -395,8 +447,16 @@ footer a{color:var(--muted)}
     <div class="days" id="mdays"></div>
     <div class="picker" id="mpicker" hidden></div>
     <div class="gap" id="mgap" hidden></div>
+    <div class="remind" id="remind" hidden>
+      <label class="rsw"><input type="checkbox" id="remOn"><span class="knob" aria-hidden="true"></span>🔔 Напоминать в шторке в</label>
+      <input type="time" id="remTime" value="20:00" aria-label="Время напоминания">
+    </div>
+    <div class="ysync" id="ysync"></div>
+    <div class="ctitle">Друзья</div>
+    <div class="friends" id="friends"></div>
     <div class="ctitle">Что связано с вашим самочувствием</div>
     <div class="facs" id="mfacs"></div>
+    <div class="src" id="backupNote" hidden>Отметки также попадают в резервную копию Android (если она включена в настройках телефона).</div>
     <div class="src">Для каждого дня с отметкой берутся данные метеостанции и индекс Kp за этот день, затем считается, насколько самочувствие меняется вместе с показателем (коэффициент корреляции). Это подсказка, а не диагноз: связь не доказывает причину, а при малом числе дней выводы случайны.</div>
   </div>
 </section>
@@ -446,7 +506,14 @@ const fmtDMY = d => new Intl.DateTimeFormat("ru-RU",{day:"numeric",month:"long",
 const isoDay = d => new Intl.DateTimeFormat("sv-SE",{timeZone:TZ}).format(d); // YYYY-MM-DD in local time
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const H = 3600e3, DAY = 24*H;
-const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
+/* In the Android app the important keys are also written to the app's system storage
+   (SharedPreferences), which Android backs up to the user's Google account. */
+const PREF = (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) ? window.Capacitor.Plugins?.Preferences : null;
+const BACKUP_KEYS = ["mood","moodDel","cities","city","remind","gpsDone","yandex","friends","share"];
+const store = {
+  get(k){ try{return localStorage.getItem(k)}catch(e){return null} },
+  set(k,v){ try{localStorage.setItem(k,v)}catch(e){} if(PREF && BACKUP_KEYS.includes(k)) PREF.set({key:k, value:String(v)}).catch(()=>{}); }
+};
 
 /* ---------- presets for city search ---------- */
 const CITY_DATA = "Москва|Москва|55.76|37.62;Санкт-Петербург|Санкт-Петербург|59.94|30.31;Новосибирск|Новосибирская обл.|55.03|82.92;Екатеринбург|Свердловская обл.|56.84|60.61;Казань|Татарстан|55.79|49.12;Нижний Новгород|Нижегородская обл.|56.33|44.00;Красноярск|Красноярский край|56.01|92.87;Челябинск|Челябинская обл.|55.16|61.40;Самара|Самарская обл.|53.20|50.15;Уфа|Башкортостан|54.74|55.97;Ростов-на-Дону|Ростовская обл.|47.23|39.72;Краснодар|Краснодарский край|45.04|38.98;Омск|Омская обл.|54.99|73.37;Воронеж|Воронежская обл.|51.67|39.18;Пермь|Пермский край|58.01|56.25;Волгоград|Волгоградская обл.|48.71|44.51;Саратов|Саратовская обл.|51.53|46.03;Тюмень|Тюменская обл.|57.15|65.53;Тольятти|Самарская обл.|53.51|49.42;Махачкала|Дагестан|42.98|47.50;Барнаул|Алтайский край|53.35|83.78;Ижевск|Удмуртия|56.85|53.21;Хабаровск|Хабаровский край|48.48|135.08;Ульяновск|Ульяновская обл.|54.32|48.40;Иркутск|Иркутская обл.|52.29|104.28;Владивосток|Приморский край|43.12|131.89;Ярославль|Ярославская обл.|57.63|39.87;Севастополь|Севастополь|44.60|33.52;Ставрополь|Ставропольский край|45.04|41.97;Томск|Томская обл.|56.48|84.95;Кемерово|Кемеровская обл.|55.35|86.09;Набережные Челны|Татарстан|55.74|52.40;Оренбург|Оренбургская обл.|51.77|55.10;Новокузнецк|Кемеровская обл.|53.76|87.14;Балашиха|Московская обл.|55.80|37.94;Рязань|Рязанская обл.|54.63|39.74;Чебоксары|Чувашия|56.14|47.25;Калининград|Калининградская обл.|54.71|20.51;Пенза|Пензенская обл.|53.20|45.00;Липецк|Липецкая обл.|52.61|39.59;Киров|Кировская обл.|58.60|49.66;Астрахань|Астраханская обл.|46.35|48.04;Тула|Тульская обл.|54.19|37.62;Сочи|Краснодарский край|43.59|39.72;Курск|Курская обл.|51.73|36.19;Улан-Удэ|Бурятия|51.83|107.58;Тверь|Тверская обл.|56.86|35.90;Магнитогорск|Челябинская обл.|53.41|58.98;Сургут|ХМАО|61.25|73.40;Брянск|Брянская обл.|53.24|34.36;Якутск|Якутия|62.03|129.73;Иваново|Ивановская обл.|57.00|40.97;Владимир|Владимирская обл.|56.13|40.41;Симферополь|Крым|44.95|34.10;Нижний Тагил|Свердловская обл.|57.91|59.97;Калуга|Калужская обл.|54.51|36.26;Белгород|Белгородская обл.|50.60|36.59;Чита|Забайкальский край|52.03|113.50;Грозный|Чечня|43.32|45.69;Волжский|Волгоградская обл.|48.79|44.75;Смоленск|Смоленская обл.|54.78|32.05;Подольск|Московская обл.|55.43|37.54;Саранск|Мордовия|54.19|45.18;Вологда|Вологодская обл.|59.22|39.89;Курган|Курганская обл.|55.44|65.34;Череповец|Вологодская обл.|59.13|37.90;Архангельск|Архангельская обл.|64.54|40.54;Орёл|Орловская обл.|52.97|36.07;Владикавказ|Северная Осетия|43.02|44.68;Нижневартовск|ХМАО|60.94|76.57;Йошкар-Ола|Марий Эл|56.63|47.89;Стерлитамак|Башкортостан|53.63|55.95;Мурманск|Мурманская обл.|68.97|33.08;Кострома|Костромская обл.|57.77|40.93;Новороссийск|Краснодарский край|44.72|37.77;Тамбов|Тамбовская обл.|52.72|41.45;Химки|Московская обл.|55.89|37.44;Мытищи|Московская обл.|55.91|37.73;Нальчик|Кабардино-Балкария|43.49|43.61;Таганрог|Ростовская обл.|47.21|38.94;Нижнекамск|Татарстан|55.64|51.82;Благовещенск|Амурская обл.|50.27|127.53;Комсомольск-на-Амуре|Хабаровский край|50.55|137.00;Петрозаводск|Карелия|61.79|34.36;Королёв|Московская обл.|55.92|37.82;Шахты|Ростовская обл.|47.71|40.21;Энгельс|Саратовская обл.|51.48|46.12;Великий Новгород|Новгородская обл.|58.52|31.27;Люберцы|Московская обл.|55.68|37.89;Братск|Иркутская обл.|56.15|101.63;Старый Оскол|Белгородская обл.|51.30|37.84;Ангарск|Иркутская обл.|52.54|103.89;Сыктывкар|Коми|61.67|50.84;Дзержинск|Нижегородская обл.|56.24|43.46;Псков|Псковская обл.|57.82|28.33;Красногорск|Московская обл.|55.83|37.33;Орск|Оренбургская обл.|51.23|58.47;Абакан|Хакасия|53.72|91.44;Армавир|Краснодарский край|44.99|41.12;Балаково|Саратовская обл.|52.03|47.80;Бийск|Алтайский край|52.54|85.21;Южно-Сахалинск|Сахалинская обл.|46.96|142.74;Одинцово|Московская обл.|55.68|37.28;Уссурийск|Приморский край|43.80|131.95;Прокопьевск|Кемеровская обл.|53.89|86.74;Рыбинск|Ярославская обл.|58.05|38.83;Норильск|Красноярский край|69.35|88.20;Волгодонск|Ростовская обл.|47.51|42.16;Сызрань|Самарская обл.|53.16|48.47;Петропавловск-Камчатский|Камчатский край|53.02|158.65;Каменск-Уральский|Свердловская обл.|56.41|61.93;Новочеркасск|Ростовская обл.|47.42|40.09;Альметьевск|Татарстан|54.90|52.30;Златоуст|Челябинская обл.|55.17|59.67;Северодвинск|Архангельская обл.|64.56|39.83;Керчь|Крым|45.36|36.47;Салават|Башкортостан|53.36|55.93;Миасс|Челябинская обл.|55.05|60.11;Копейск|Челябинская обл.|55.12|61.63;Пятигорск|Ставропольский край|44.05|43.06;Электросталь|Московская обл.|55.78|38.45;Находка|Приморский край|42.82|132.87;Хасавюрт|Дагестан|43.25|46.59;Березники|Пермский край|59.41|56.82;Коломна|Московская обл.|55.08|38.78;Майкоп|Адыгея|44.61|40.10;Ковров|Владимирская обл.|56.36|41.32;Кисловодск|Ставропольский край|43.91|42.72;Серпухов|Московская обл.|54.92|37.41;Новомосковск|Тульская обл.|54.01|38.29;Нефтекамск|Башкортостан|56.09|54.25;Батайск|Ростовская обл.|47.14|39.75;Черкесск|Карачаево-Черкесия|44.23|42.06;Новочебоксарск|Чувашия|56.11|47.48;Дербент|Дагестан|42.06|48.29;Каспийск|Дагестан|42.88|47.64;Нефтеюганск|ХМАО|61.10|72.60;Первоуральск|Свердловская обл.|56.91|59.94;Новый Уренгой|ЯНАО|66.08|76.68;Ноябрьск|ЯНАО|63.20|75.45;Обнинск|Калужская обл.|55.10|36.61;Кызыл|Тыва|51.72|94.44;Октябрьский|Башкортостан|54.48|53.47;Димитровград|Ульяновская обл.|54.23|49.58;Камышин|Волгоградская обл.|50.08|45.41;Ессентуки|Ставропольский край|44.04|42.86;Невинномысск|Ставропольский край|44.63|41.94;Муром|Владимирская обл.|55.58|42.05;Евпатория|Крым|45.19|33.37;Ялта|Крым|44.50|34.17;Феодосия|Крым|45.03|35.38;Новошахтинск|Ростовская обл.|47.76|39.93;Сергиев Посад|Московская обл.|56.31|38.13;Жуковский|Московская обл.|55.60|38.12;Ногинск|Московская обл.|55.85|38.44;Пушкино|Московская обл.|56.01|37.85;Щёлково|Московская обл.|55.92|38.00;Раменское|Московская обл.|55.57|38.23;Долгопрудный|Московская обл.|55.94|37.51;Зеленоград|Москва|55.99|37.21;Домодедово|Московская обл.|55.44|37.77;Реутов|Московская обл.|55.76|37.86;Орехово-Зуево|Московская обл.|55.81|38.98;Дмитров|Московская обл.|56.34|37.52;Клин|Московская обл.|56.33|36.73;Воскресенск|Московская обл.|55.32|38.68;Чехов|Московская обл.|55.14|37.46;Гатчина|Ленинградская обл.|59.57|30.13;Выборг|Ленинградская обл.|60.71|28.75;Всеволожск|Ленинградская обл.|60.02|30.64;Кириши|Ленинградская обл.|59.45|32.02;Тихвин|Ленинградская обл.|59.64|33.51;Сосновый Бор|Ленинградская обл.|59.90|29.09;Боровичи|Новгородская обл.|58.39|33.92;Старая Русса|Новгородская обл.|57.99|31.35;Великие Луки|Псковская обл.|56.34|30.54;Ухта|Коми|63.56|53.69;Воркута|Коми|67.50|64.05;Котлас|Архангельская обл.|61.26|46.65;Анадырь|Чукотка|64.73|177.51;Магадан|Магаданская обл.|59.57|150.80;Биробиджан|Еврейская АО|48.79|132.92;Горно-Алтайск|Алтай|51.96|85.96;Элиста|Калмыкия|46.31|44.26;Магас|Ингушетия|43.17|44.81;Назрань|Ингушетия|43.23|44.76;Ханты-Мансийск|ХМАО|61.00|69.02;Салехард|ЯНАО|66.53|66.60;Нарьян-Мар|Ненецкий АО|67.64|53.01;Тобольск|Тюменская обл.|58.20|68.25;Ишим|Тюменская обл.|56.11|69.49;Рубцовск|Алтайский край|51.51|81.21;Бердск|Новосибирская обл.|54.76|83.10;Северск|Томская обл.|56.60|84.88;Ачинск|Красноярский край|56.27|90.50;Канск|Красноярский край|56.21|95.72;Минусинск|Красноярский край|53.71|91.69;Усть-Илимск|Иркутская обл.|58.00|102.66;Тулун|Иркутская обл.|54.56|100.58;Нерюнгри|Якутия|56.66|124.72;Мирный|Якутия|62.53|113.96;Артём|Приморский край|43.36|132.19;Арзамас|Нижегородская обл.|55.39|43.84;Саров|Нижегородская обл.|54.93|43.32;Бор|Нижегородская обл.|56.36|44.06;Кинешма|Ивановская обл.|57.44|42.16;Шуя|Ивановская обл.|56.85|41.39;Ростов Великий|Ярославская обл.|57.19|39.41;Переславль-Залесский|Ярославская обл.|56.74|38.85;Углич|Ярославская обл.|57.53|38.33;Суздаль|Владимирская обл.|56.42|40.44;Кольчугино|Владимирская обл.|56.30|39.38;Ржев|Тверская обл.|56.26|34.33;Вышний Волочёк|Тверская обл.|57.59|34.56;Торжок|Тверская обл.|57.04|34.96;Вязьма|Смоленская обл.|55.21|34.30;Елец|Липецкая обл.|52.62|38.50;Мичуринск|Тамбовская обл.|52.90|40.49;Борисоглебск|Воронежская обл.|51.37|42.08;Россошь|Воронежская обл.|50.19|39.59;Губкин|Белгородская обл.|51.28|37.54;Железногорск|Курская обл.|52.34|35.35;Ливны|Орловская обл.|52.42|37.61;Алексин|Тульская обл.|54.51|37.07;Ефремов|Тульская обл.|53.15|38.12;Узловая|Тульская обл.|53.98|38.17;Касимов|Рязанская обл.|54.94|41.39;Кузнецк|Пензенская обл.|53.12|46.60;Балашов|Саратовская обл.|51.55|43.17;Вольск|Саратовская обл.|52.05|47.39;Чистополь|Татарстан|55.36|50.64;Елабуга|Татарстан|55.76|52.06;Зеленодольск|Татарстан|55.84|48.52;Бугульма|Татарстан|54.54|52.80;Сарапул|Удмуртия|56.47|53.80;Глазов|Удмуртия|58.14|52.66;Воткинск|Удмуртия|57.05|53.99;Соликамск|Пермский край|59.64|56.78;Чайковский|Пермский край|56.77|54.15;Кунгур|Пермский край|57.43|56.96;Кирово-Чепецк|Кировская обл.|58.55|50.04;Туймазы|Башкортостан|54.61|53.71;Белорецк|Башкортостан|53.97|58.40;Ишимбай|Башкортостан|53.45|56.04;Бузулук|Оренбургская обл.|52.79|52.26;Новотроицк|Оренбургская обл.|51.20|58.30;Серов|Свердловская обл.|59.60|60.57;Асбест|Свердловская обл.|57.00|61.46;Березовский|Свердловская обл.|56.91|60.80;Ревда|Свердловская обл.|56.80|59.91;Верхняя Пышма|Свердловская обл.|56.97|60.58;Троицк|Челябинская обл.|54.08|61.56;Озёрск|Челябинская обл.|55.76|60.71;Шадринск|Курганская обл.|56.08|63.63;Междуреченск|Кемеровская обл.|53.69|88.06;Ленинск-Кузнецкий|Кемеровская обл.|54.66|86.17;Белово|Кемеровская обл.|54.42|86.30;Юрга|Кемеровская обл.|55.71|84.93;Искитим|Новосибирская обл.|54.64|83.31;Черногорск|Хакасия|53.83|91.28;Сальск|Ростовская обл.|46.47|41.54;Азов|Ростовская обл.|47.11|39.42;Каменск-Шахтинский|Ростовская обл.|48.32|40.26;Ейск|Краснодарский край|46.71|38.27;Анапа|Краснодарский край|44.89|37.32;Геленджик|Краснодарский край|44.56|38.08;Туапсе|Краснодарский край|44.10|39.08;Кропоткин|Краснодарский край|45.44|40.58;Славянск-на-Кубани|Краснодарский край|45.26|38.12;Тихорецк|Краснодарский край|45.85|40.13;Лабинск|Краснодарский край|44.63|40.73;Будённовск|Ставропольский край|44.78|44.16;Минеральные Воды|Ставропольский край|44.21|43.14;Георгиевск|Ставропольский край|44.15|43.47;Железноводск|Ставропольский край|44.14|43.03;Михайловск|Ставропольский край|45.13|42.03;Буйнакск|Дагестан|42.82|47.12;Кизляр|Дагестан|43.85|46.71;Прохладный|Кабардино-Балкария|43.76|44.03;Моздок|Северная Осетия|43.74|44.65;Гудермес|Чечня|43.35|46.10;Ахтубинск|Астраханская обл.|48.28|46.17;Михайловка|Волгоградская обл.|50.07|43.24;Урюпинск|Волгоградская обл.|50.80|42.00;Новокуйбышевск|Самарская обл.|53.10|49.95;Чапаевск|Самарская обл.|52.98|49.72;Жигулёвск|Самарская обл.|53.40|49.49;Новоуральск|Свердловская обл.|57.25|60.08;Лесосибирск|Красноярский край|58.23|92.48;Железногорск (Красноярский край)|Красноярский край|56.25|93.53;Дудинка|Красноярский край|69.40|86.18;Кандалакша|Мурманская обл.|67.16|32.41;Апатиты|Мурманская обл.|67.57|33.39;Мончегорск|Мурманская обл.|67.94|32.87;Североморск|Мурманская обл.|69.07|33.42;Кондопога|Карелия|62.21|34.27;Сегежа|Карелия|63.74|34.31;Сортавала|Карелия|61.70|30.69;Советск|Калининградская обл.|55.08|21.89;Черняховск|Калининградская обл.|54.63|21.81;Зеленоградск|Калининградская обл.|54.96|20.48;Тында|Амурская обл.|55.15|124.72;Свободный|Амурская обл.|51.38|128.13;Амурск|Хабаровский край|50.23|136.90;Советская Гавань|Хабаровский край|48.97|140.29;Спасск-Дальний|Приморский край|44.59|132.82;Корсаков|Сахалинская обл.|46.63|142.78;Холмск|Сахалинская обл.|47.05|142.04;Елизово|Камчатский край|53.18|158.38;Краснокаменск|Забайкальский край|50.10|118.04;Гусиноозёрск|Бурятия|51.29|106.52;Северобайкальск|Бурятия|55.64|109.33;Минск|Беларусь|53.90|27.56;Гомель|Беларусь|52.43|30.98;Брест|Беларусь|52.10|23.73;Гродно|Беларусь|53.68|23.83;Витебск|Беларусь|55.19|30.20;Могилёв|Беларусь|53.91|30.34;Алматы|Казахстан|43.24|76.89;Астана|Казахстан|51.17|71.43;Караганда|Казахстан|49.81|73.09;Шымкент|Казахстан|42.34|69.59;Бишкек|Киргизия|42.87|74.59;Ташкент|Узбекистан|41.31|69.28;Ереван|Армения|40.18|44.51;Тбилиси|Грузия|41.72|44.79;Баку|Азербайджан|40.41|49.87;Кишинёв|Молдова|47.01|28.86;Душанбе|Таджикистан|38.56|68.79";
@@ -525,12 +592,38 @@ const S = {
 };
 for(const c of Object.values(S.cities)) c.status="ready";
 if(!S.cities[S.slug]) S.slug=Object.keys(S.cities)[0];
-const saveCities=()=>store.set("cities",JSON.stringify(S.cities));
+const saveCities=()=>{ store.set("cities",JSON.stringify(S.cities)); if(typeof ySyncSoon==="function") ySyncSoon(); };
 
 /* ---- sources ---- */
 const OM="https://api.open-meteo.com/v1/forecast", OMA="https://archive-api.open-meteo.com/v1/archive", GEO="https://geocoding-api.open-meteo.com/v1/search";
 const HOURLY="temperature_2m,relative_humidity_2m,surface_pressure,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,is_day";
-async function getJSON(url){ const r=await fetch(url,{cache:"no-store"}); if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); }
+async function getJSON(url, ms=15000){
+  const ac=new AbortController(), to=setTimeout(()=>ac.abort(), ms);
+  try{ const r=await fetch(url,{cache:"no-store",signal:ac.signal}); if(!r.ok) throw new Error("HTTP "+r.status); return await r.json(); }
+  finally{ clearTimeout(to); }
+}
+/* Some hosts are blocked by providers (in Russia api.open-meteo.com just hangs).
+   Each kind of request has several mirrors: the last one that worked goes first,
+   the next one starts if the first is silent for 2.5 s, the first good answer wins. */
+const MIRRORS = {
+  forecast: ["https://api.open-meteo.com/v1/forecast", "https://historical-forecast-api.open-meteo.com/v1/forecast"],
+  archive:  ["https://archive-api.open-meteo.com/v1/archive", "https://historical-forecast-api.open-meteo.com/v1/forecast"],
+  geocode:  ["https://geocoding-api.open-meteo.com/v1/search"]
+};
+function mirrorOrder(kind){ const good=store.get("mirror:"+kind); const list=MIRRORS[kind].slice(); if(good&&list.includes(good)){ list.splice(list.indexOf(good),1); list.unshift(good); } return list; }
+function getMirror(kind, query, ms=20000){
+  const list=mirrorOrder(kind);
+  return new Promise((resolve,reject)=>{
+    let done=false, failed=0, started=0;
+    const start=i=>{
+      if(done||i>=list.length) return; started++;
+      getJSON(list[i]+"?"+query, ms).then(j=>{ if(done) return; if(j&&j.error) throw new Error(j.reason||"error"); done=true; store.set("mirror:"+kind,list[i]); resolve(j); })
+        .catch(e=>{ failed++; if(!done){ start(i+1); if(failed>=list.length) reject(e); } });
+    };
+    start(0);
+    for(let i=1;i<list.length;i++) setTimeout(()=>{ if(!done&&started<=i) start(i); }, 2500*i);
+  });
+}
 function wmoSym(code,isDay){
   const d=isDay?"_day":"_night";
   if(code===0) return "clearsky"+d; if(code===1) return "fair"+d; if(code===2) return "partlycloudy"+d; if(code===3) return "cloudy";
@@ -599,7 +692,8 @@ const cityOf = id => S.cities[id] || {name:id, status:"ready"};
 /* ---- loaders ---- */
 async function loadForecast(id){
   const c=cityOf(id);
-  const j=await getJSON(`${OM}?latitude=${c.lat}&longitude=${c.lon}&hourly=${HOURLY}&past_days=2&forecast_days=3&timezone=GMT&wind_speed_unit=ms`);
+  const d0=isoDay(new Date(Date.now()-2*DAY)), d1=isoDay(new Date(Date.now()+2*DAY));
+  const j=await getMirror("forecast", `latitude=${c.lat}&longitude=${c.lon}&hourly=${HOURLY}&start_date=${d0}&end_date=${d1}&timezone=GMT&wind_speed_unit=ms`);
   const rows=hourlyRows(j), now=Date.now();
   const hours=rows.map(r=>({t:r.t,p:r.Po,temp:r.T,hum:Math.round(r.f),wind:r.w,wdir:r.wdir,cloud:r.cl,sym:wmoSym(r.code,r.day),pr:r.pr||0}));
   S.feed[id]={fetched:new Date().toISOString(), hours};
@@ -638,10 +732,10 @@ async function loadHistRange(id, from, to){
   const c=cityOf(id), today=isoDay(new Date());
   const recentFrom=isoDay(new Date(Date.now()-6*DAY));
   const parts=[];
-  if(from<recentFrom) parts.push([OMA, from, to<recentFrom?to:isoDay(new Date(+new Date(recentFrom+"T12:00:00")-DAY))]);
-  if(to>=recentFrom) parts.push([OM, from>recentFrom?from:recentFrom, to]);
-  for(const [base,a,b] of parts){
-    const j=await getJSON(`${base}?latitude=${c.lat}&longitude=${c.lon}&start_date=${a}&end_date=${b}&hourly=${HOURLY}&timezone=GMT&wind_speed_unit=ms`);
+  if(from<recentFrom) parts.push(["archive", from, to<recentFrom?to:isoDay(new Date(+new Date(recentFrom+"T12:00:00")-DAY))]);
+  if(to>=recentFrom) parts.push(["forecast", from>recentFrom?from:recentFrom, to]);
+  for(const [kind,a,b] of parts){
+    const j=await getMirror(kind, `latitude=${c.lat}&longitude=${c.lon}&start_date=${a}&end_date=${b}&hourly=${HOURLY}&timezone=GMT&wind_speed_unit=ms`, 30000);
     const rows=hourlyRows(j).filter(r=>+new Date(r.t)<=Date.now());
     const full=[]; for(let t=+new Date(a+"T12:00:00"); t<=+new Date(b+"T12:00:00"); t+=DAY){ const d=isoDay(new Date(t)); if(d<today) full.push(d); }
     addHist(id, rows, full);
@@ -683,6 +777,8 @@ function render(){
   let ki=kp.findIndex(x=>{const t=new Date(x.t);return now>=t && now<new Date(+t+3*H)});
   if(ki<0) ki=nearestIdx(kp,now);
   const kc=kp[ki]||{kp:0};
+  if(!kp.length){ $("kpval").innerHTML=`—<small>Kp</small>`; const pl=$("kppill"); pl.textContent="нет данных"; pl.style.color="var(--muted)"; pl.style.background="rgba(238,243,248,.08)"; $("kpbars").innerHTML=""; $("aurora").style.opacity=0; }
+  else {
   const [ktext,kcol]=kpInfo(kc.kp);
   $("kpval").innerHTML=`${(+kc.kp).toFixed(kc.kp%1?1:0)}<small>Kp</small>`;
   const pill=$("kppill"); pill.textContent=ktext; pill.style.color=kcol; pill.style.background="color-mix(in srgb, currentColor 16%, transparent)";
@@ -696,6 +792,7 @@ function render(){
   au.style.setProperty("--aur1", kc.kp>=5?"rgba(255,122,107,.55)":"rgba(139,227,143,.45)");
   au.style.setProperty("--aur2", "rgba(180,140,242,.45)");
   au.style.opacity = Math.min(1, Math.max(kc.kp,maxNext)/7).toFixed(2);
+  }
 
   const pr=hrs.slice(i,i+24), mx=Math.max(0.5,...pr.map(x=>x.pr));
   $("prbars").innerHTML=pr.map((x,n)=>`<i class="${x.pr>0?"":"zero"}" style="height:${x.pr>0?Math.max(8,x.pr/mx*100):4}%;animation-delay:${n*25}ms"></i>`).join("");
@@ -766,16 +863,19 @@ const sky=(()=>{
 
 /* ---------- sheets ---------- */
 let openSheet=null, lastFocus=null;
+/* each open window is a step in history: the phone's Back button closes it instead of leaving the app */
 function showSheet(id){
-  if(openSheet) hideSheet(true);
+  const switching=!!openSheet;
+  if(openSheet) closeSheetView(true);
   lastFocus=document.activeElement;
   const sc=$("scrim"), sh=$(id);
   sc.hidden=false; sh.hidden=false;
   requestAnimationFrame(()=>{sc.classList.add("open");sh.classList.add("open");});
   openSheet=sh;
+  try{ if(switching&&history.state&&history.state.sheet) history.replaceState({sheet:id},""); else history.pushState({sheet:id},""); }catch(e){}
   setTimeout(()=>{const f=sh.querySelector(".search")||sh.querySelector(".xbtn"); f&&f.focus({preventScroll:true});},300);
 }
-function hideSheet(instant){
+function closeSheetView(instant){
   if(!openSheet) return;
   const sh=openSheet, sc=$("scrim"); openSheet=null;
   sh.style.transform=""; sh.classList.remove("open"); sc.classList.remove("open");
@@ -783,6 +883,17 @@ function hideSheet(instant){
   instant||reduce?done():setTimeout(done,320);
   lastFocus&&lastFocus.focus&&lastFocus.focus({preventScroll:true});
 }
+function hideSheet(instant){
+  if(!openSheet) return;
+  closeSheetView(instant);
+  // closed by ×, swipe or tap outside: drop the history step we added
+  try{ if(history.state&&history.state.sheet){ ignorePop=true; history.back(); } }catch(e){}
+}
+let ignorePop=false;
+addEventListener("popstate",()=>{
+  if(ignorePop){ ignorePop=false; return; }
+  if(openSheet){ if(typeof stopPlay==="function"&&openSheet.id==="mapSheet") stopPlay(); closeSheetView(); }   // Back button
+});
 $("scrim").addEventListener("click",()=>hideSheet());
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>hideSheet()));
 addEventListener("keydown",e=>{if(e.key==="Escape") hideSheet();});
@@ -1036,8 +1147,13 @@ function renderCities(){
 async function geoSearch(raw){
   const q=norm(raw);
   try{
-    const j=await getJSON(`${GEO}?name=${encodeURIComponent(raw)}&count=15&language=ru&format=json`);
-    geoResults=(j.results||[]).map(r=>({name:r.name, lat:+r.latitude.toFixed(3), lon:+r.longitude.toFixed(3), region:[r.admin1,r.country].filter(Boolean).join(", ")}));
+    try{
+      const j=await getMirror("geocode", `name=${encodeURIComponent(raw)}&count=15&language=ru&format=json`, 8000);
+      geoResults=(j.results||[]).map(r=>({name:r.name, lat:+r.latitude.toFixed(3), lon:+r.longitude.toFixed(3), region:[r.admin1,r.country].filter(Boolean).join(", ")}));
+    }catch(e){
+      const j=await getJSON(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(raw)}&format=jsonv2&accept-language=ru&limit=12&featureType=settlement`, 10000);
+      geoResults=j.map(r=>({name:(r.name||r.display_name.split(",")[0]), lat:+(+r.lat).toFixed(3), lon:+(+r.lon).toFixed(3), region:r.display_name.split(",").slice(1,3).join(",").trim()}));
+    }
   }catch(e){ geoResults=[]; }
   geoQ=q; if(norm($("csearch").value)===q) renderCities();
 }
@@ -1061,7 +1177,8 @@ function locate(){
   navigator.geolocation.getCurrentPosition(async pos=>{
     const lat=+pos.coords.latitude.toFixed(3), lon=+pos.coords.longitude.toFixed(3);
     let name="Моё место", region="";
-    try{ const j=await getJSON(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=ru`); name=j.city||j.locality||name; region=[j.principalSubdivision,j.countryName].filter(Boolean).join(", "); }catch(e){}
+    try{ const j=await getJSON(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=ru`, 8000); name=j.city||j.locality||name; region=[j.principalSubdivision,j.countryName].filter(Boolean).join(", "); }
+    catch(e){ try{ const j=await getJSON(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=jsonv2&accept-language=ru&zoom=10`, 8000); const a=j.address||{}; name=a.city||a.town||a.village||a.county||name; region=[a.state,a.country].filter(Boolean).join(", "); }catch(e2){} }
     const id=addCity(name, lat, lon, region); store.set("gpsDone","1");
     selectCity(id); hideSheet();
   }, err=>{
@@ -1079,21 +1196,26 @@ $("citybtn").addEventListener("click",()=>{$("csearch").value="";renderCities();
 
 /* ---------- precipitation map: model grid around the city, time slider ---------- */
 const RAD={id:null,times:[],lats:[],lons:[],P:null,C:null,t:0,playing:false,raf:0,maps:[]};
-const RN=11, RSTEP=0.2;   // 11×11 points, 0.2° apart (≈ 22 km)
+const RN=9, RSTEP=0.25;   // 9×9 points, 0.25° apart (≈ 28 km)
 async function loadRadar(id){
+  if(RAD.id===id && RAD.loaded && Date.now()-RAD.loaded<20*60*1000 && RAD.times.length) return;
   const c=cityOf(id), dLon=RSTEP/Math.cos(c.lat*Math.PI/180);
   const lats=[],lons=[],qa=[],qo=[];
   for(let i=0;i<RN;i++) lats.push(+(c.lat+(i-(RN-1)/2)*RSTEP).toFixed(3));
   for(let j=0;j<RN;j++) lons.push(+(c.lon+(j-(RN-1)/2)*dLon).toFixed(3));
   for(const la of lats) for(const lo of lons){ qa.push(la); qo.push(lo); }
-  const j=await getJSON(`${OM}?latitude=${qa.join(",")}&longitude=${qo.join(",")}&hourly=precipitation,cloud_cover&past_hours=3&forecast_hours=13&timezone=GMT`);
+  const d0=isoDay(new Date(Date.now()-DAY)), d1=isoDay(new Date(Date.now()+DAY));
+  const j=await getMirror("forecast", `latitude=${qa.join(",")}&longitude=${qo.join(",")}&hourly=precipitation,cloud_cover&start_date=${d0}&end_date=${d1}&timezone=GMT`, 30000);
   const arr=Array.isArray(j)?j:[j];
-  const times=arr[0].hourly.time.map(t=>+new Date(t+":00Z"));
-  const P=times.map((_,k)=>arr.map(a=>a.hourly.precipitation[k]??0));
-  const C=times.map((_,k)=>arr.map(a=>a.hourly.cloud_cover[k]??0));
+  const all=arr[0].hourly.time.map(t=>+new Date(t+":00Z")), tNow=Date.now();
+  const keep=all.map((t,k)=>[t,k]).filter(([t])=>t>=tNow-3*H-H&&t<=tNow+12*H+H);   // from 3 hours ago to 12 hours ahead
+  const times=keep.map(([t])=>t);
+  const P=keep.map(([,k])=>arr.map(a=>a.hourly.precipitation[k]??0));
+  const C=keep.map(([,k])=>arr.map(a=>a.hourly.cloud_cover[k]??0));
+  RAD.loaded=Date.now();
   Object.assign(RAD,{id,times,lats,lons,P,C});
   const now=Date.now(); RAD.t=Math.min(Math.max(now,times[0]),times[times.length-1]);
-  try{ store.set("radar:"+id,JSON.stringify({times,lats,lons,P,C})); }catch(e){}
+  try{ store.set("radar:"+id,JSON.stringify({times,lats,lons,P,C,loaded:RAD.loaded})); }catch(e){}
   setupControls(); drawRadar();
 }
 function radarFromCache(id){ const r=loadJSON("radar:"+id,null); if(r&&r.times){ Object.assign(RAD,r,{id}); RAD.t=Math.min(Math.max(Date.now(),r.times[0]),r.times[r.times.length-1]); setupControls(); drawRadar(); } }
@@ -1127,7 +1249,9 @@ function paintField(fld){
     } }
   ctx.putImageData(img,0,0);
 }
-/* tiny slippy map (no library) */
+/* tiny slippy map (no library); tiles from Esri, OpenStreetMap if Esri is unreachable */
+const TILES={osm: store.get("tiles")==="osm", fails:0, ok:0, timer:null};
+function tilesToOsm(){ if(TILES.osm) return; TILES.osm=true; store.set("tiles","osm"); RAD.maps.forEach(mm=>{ mm.pool.forEach(i=>i.remove()); mm.pool.clear(); mm.lpool.forEach(i=>i.remove()); mm.lpool.clear(); mm.el.querySelector(".attr").textContent="© OpenStreetMap"; mm.draw(); }); }
 const lon2x=(lo,z)=>(lo+180)/360*256*2**z, lat2y=(la,z)=>{const r=la*Math.PI/180; return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*256*2**z;};
 function MiniMap(el, interactive){
   const tiles=document.createElement("div"); tiles.className="tiles"; el.prepend(tiles);
@@ -1135,7 +1259,7 @@ function MiniMap(el, interactive){
   const pin=document.createElement("div"); pin.className="pin"; el.appendChild(pin);
   const st=document.createElement("div"); st.className="rstat"; el.appendChild(st);
   const labels=document.createElement("div"); labels.className="tiles labels"; el.insertBefore(labels, pin);
-  const at=document.createElement("div"); at.className="attr"; at.textContent="© Esri, HERE, Garmin, © OpenStreetMap"; el.appendChild(at);
+  const at=document.createElement("div"); at.className="attr"; at.textContent=TILES.osm?"© OpenStreetMap":"© Esri, HERE, Garmin, © OpenStreetMap"; el.appendChild(at);
   const m={el,center:null,z:7,pool:new Map(),lpool:new Map(),home:null};
   const ESRI="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/";
   m.setHome=(lat,lon)=>{ m.home=[lat,lon]; m.center=[lat,lon]; m.draw(); };
@@ -1149,7 +1273,15 @@ function MiniMap(el, interactive){
       const tf=`translate(${Math.round(tx*256-x0)}px,${Math.round(ty*256-y0)}px)`;
       for(const [pool,box,layer] of [[m.pool,tiles,"World_Dark_Gray_Base"],[m.lpool,labels,"World_Dark_Gray_Reference"]]){
         let img=pool.get(key+"@"+tx);
-        if(!img){ img=new Image(); img.alt=""; img.decoding="async"; img.onerror=()=>{img.style.visibility="hidden";}; img.src=`${ESRI}${layer}/MapServer/tile/${z}/${ty}/${wx}`; box.appendChild(img); pool.set(key+"@"+tx,img); }
+        if(TILES.osm && layer.endsWith("Reference")) continue;
+        if(!img){ img=new Image(); img.alt=""; img.decoding="async";
+          img.onerror=()=>{ img.style.visibility="hidden"; if(!TILES.osm && ++TILES.fails>=3) tilesToOsm(); };
+          img.onload=()=>{ TILES.ok++; };
+          // a blocked host never answers: if no Esri tile arrives within 7 s, use OpenStreetMap
+          if(!TILES.osm && !TILES.timer) TILES.timer=setTimeout(()=>{ if(!TILES.ok) tilesToOsm(); }, 7000);
+          img.src = TILES.osm ? `https://tile.openstreetmap.org/${z}/${wx}/${ty}.png` : `${ESRI}${layer}/MapServer/tile/${z}/${ty}/${wx}`;
+          if(TILES.osm) img.className="osm";
+          box.appendChild(img); pool.set(key+"@"+tx,img); }
         img.style.transform=tf;
       }
     }
@@ -1177,6 +1309,7 @@ function MiniMap(el, interactive){
   new ResizeObserver(()=>m.draw()).observe(el);
   RAD.maps.push(m); return m;
 }
+function mapNote(t){ document.querySelectorAll(".rmap .rstat").forEach(e=>{ e.hidden=false; e.textContent=t; }); }
 const mapSmall=MiniMap($("rmapSmall"), false);
 let mapBig=null;
 function drawRadar(){
@@ -1233,13 +1366,17 @@ async function refreshNow(quiet){
   const id=S.slug, my=++T.seq;              // a newer refresh (another city) makes this one irrelevant
   setTracker("busy","обновляю…");
   try{
-    await Promise.all([loadForecast(id), loadKpNow().catch(()=>{}), loadRadar(id).catch(()=>{})]);
+    loadKpNow().then(()=>{ if(my===T.seq) render(); }).catch(()=>{});
+    loadRadar(id).catch(()=>{ if(my===T.seq) mapNote("Карта осадков не загрузилась. Потяните экран вниз, чтобы повторить."); });
+    await loadForecast(id);
     if(my!==T.seq) return;
     render(); setTracker("done","Готово");
     return true;
   }catch(e){
     if(my!==T.seq) return;
-    setTracker("error","Нет связи"); if(!quiet) toast("Не удалось обновить: нет связи с сервером погоды. Показаны сохранённые данные.");
+    setTracker("error","Нет связи");
+    if(!S.feed[id]){ const pn=$("pendingNote"); pn.hidden=false; pn.innerHTML=`<b>${esc(cityOf(id).name)}</b>: сервер погоды не отвечает. Проверьте интернет и потяните экран вниз, чтобы повторить.`; }
+    else if(!quiet) toast("Не удалось обновить: нет связи с сервером погоды. Показаны сохранённые данные.");
     return false;
   }
 }
@@ -1248,12 +1385,14 @@ document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ const f
 
 /* ---------- mood: daily check-in, kept on this phone ---------- */
 const MOOD={3:{e:"😊",l:"Хорошо",c:"#8be38f"},2:{e:"😐",l:"Так себе",c:"#f2c94c"},1:{e:"😣",l:"Плохо",c:"#ff7a6b"}};
-S.mood={}; S.moodRef=null;
+S.mood={}; S.moodRef=null; S.moodDel=loadJSON("moodDel",{})||{};
 try{ S.mood=JSON.parse(store.get("mood")||"{}")||{}; }catch(e){ S.mood={}; }
 let moodChain=Promise.resolve();
 function saveMood(date, v){
-  if(v) S.mood[date]={v, city:S.slug, at:new Date().toISOString()}; else delete S.mood[date];
-  store.set("mood", JSON.stringify(S.mood));
+  const at=new Date().toISOString();
+  if(v){ S.mood[date]={v, city:S.slug, at}; delete S.moodDel[date]; } else { delete S.mood[date]; S.moodDel[date]=at; }
+  store.set("mood", JSON.stringify(S.mood)); store.set("moodDel", JSON.stringify(S.moodDel));
+  ySyncSoon(); if(typeof scheduleReminders==="function") scheduleReminders();
   renderMood(); if(!$("moodSheet").hidden) renderMoodSheet(); if(!$("hist").hidden) drawHistory();
 }
 function renderMood(){
@@ -1261,16 +1400,45 @@ function renderMood(){
   const box=$("mbtns"); box.classList.toggle("chosen",!!rec);
   box.querySelectorAll(".mbtn").forEach(b=>b.setAttribute("aria-pressed", String(!!rec && +b.dataset.mood===rec.v)));
   const n=Object.keys(S.mood).length;
-  $("mstreak").textContent = rec ? "записано" : n ? `отмечено дней: ${n}` : "";
+  $("mstreak").textContent = n ? `дней: ${n}` : "";
+  const chip=$("moodChip");
+  $("moodChipE").textContent = rec ? MOOD[rec.v].e : "🙂";
+  chip.classList.toggle("ask", !rec);
+  chip.setAttribute("aria-label", rec ? `Сегодня: ${MOOD[rec.v].l}. Открыть «Самочувствие и погода»` : "Отметить самочувствие");
+  if($("moodPop").hidden) chip.hidden=false;
+}
+/* the question pops up; after a tap it folds into the round chip in the corner */
+function showMoodPop(){
+  const pop=$("moodPop"); if(!pop.hidden) return;
+  if(openSheet) hideSheet(true);
+  renderMood(); $("moodChip").hidden=true;
+  const card=$("moodCardPop"); card.classList.remove("fly"); card.style.transform=""; card.style.opacity="";
+  pop.hidden=false; requestAnimationFrame(()=>pop.classList.add("open"));
+}
+function foldMoodPop(){
+  const pop=$("moodPop"), card=$("moodCardPop"), chip=$("moodChip");
+  if(pop.hidden) return;
+  chip.hidden=false; chip.style.visibility="hidden";
+  const a=card.getBoundingClientRect(), c=chip.getBoundingClientRect();
+  const dx=(c.left+c.width/2)-(a.left+a.width/2), dy=(c.top+c.height/2)-(a.top+a.height/2), sc=c.width/a.width;
+  card.classList.add("fly");
+  card.style.transform=`translate(${dx}px,${dy}px) scale(${sc})`; card.style.opacity="0";
+  pop.classList.remove("open");
+  setTimeout(()=>{ pop.hidden=true; card.classList.remove("fly"); card.style.transform=""; card.style.opacity="";
+    chip.style.visibility=""; chip.classList.remove("land"); void chip.offsetWidth; chip.classList.add("land"); }, reduce?0:480);
 }
 $("mbtns").addEventListener("click",e=>{
   const b=e.target.closest(".mbtn"); if(!b) return;
   const today=isoDay(new Date()), v=+b.dataset.mood;
   b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
-  saveMood(today, S.mood[today]?.v===v ? null : v);
-  if(S.mood[today]) toast(`${MOOD[v].e} Записано на сегодня`);
+  saveMood(today, v);
+  setTimeout(foldMoodPop, 380);
 });
-$("moodOpen").addEventListener("click",()=>{ MS.sel=null; renderMoodSheet(); showSheet("moodSheet"); });
+$("moodLater").addEventListener("click",()=>{ store.set("moodLater", isoDay(new Date())); foldMoodPop(); });
+$("moodPop").addEventListener("click",e=>{ if(e.target.id==="moodPop") foldMoodPop(); });
+$("moodChip").addEventListener("click",()=>{ const today=isoDay(new Date()); if(!S.mood[today]) showMoodPop(); else openMoodSheet(); });
+function openMoodSheet(){ MS.sel=null; $("backupNote").hidden=!PREF; renderY(); renderFriends(); renderMoodSheet(); showSheet("moodSheet"); fetchFriends(false); }
+$("moodOpen").addEventListener("click",()=>{ $("moodPop").hidden=true; $("moodPop").classList.remove("open"); renderMood(); openMoodSheet(); });
 
 /* per-day weather features for a date (Moscow day) */
 function dayFeatures(date, slug){
@@ -1361,6 +1529,251 @@ function moodLoadArchive(rows){
 }
 renderMood();
 
+/* ---------- Yandex Disk sync: marks and cities in the app folder of the user's Disk ---------- */
+const YD="https://cloud-api.yandex.net/v1/disk/resources", YFILE="app:/barometr-neba.json";
+const Y_CLIENT_ID = "d75cc9a3e86941919d2a35fca284c9c5";   // «Метеодневник» on oauth.yandex.ru: web redirect to auth.html, access to the app folder on Disk only
+const Y = Object.assign({clientId:"", token:"", last:"", err:""}, loadJSON("yandex",{})||{});
+Y.clientId=Y_CLIENT_ID;   // always the built-in app (tokens issued earlier keep working)
+const saveY=()=>store.set("yandex",JSON.stringify({clientId:Y.clientId,token:Y.token,last:Y.last}));
+// native app: requests go through Android (no browser CORS limits); browser: ordinary fetch
+async function yReq(method, url, body, auth=true){
+  const headers={}; if(auth) headers.Authorization="OAuth "+Y.token; if(body!=null) headers["Content-Type"]="application/json";
+  const H=window.Capacitor?.Plugins?.CapacitorHttp;
+  if(PREF && H){
+    const r=await H.request({method,url,headers,data:body??undefined,connectTimeout:15000,readTimeout:20000});
+    let data=r.data; if(typeof data==="string"){ try{data=JSON.parse(data)}catch(e){} }
+    return {status:r.status, data};
+  }
+  const ac=new AbortController(), to=setTimeout(()=>ac.abort(),20000);
+  try{ const r=await fetch(url,{method,headers,body:body??undefined,signal:ac.signal}); let data=null; try{data=await r.json()}catch(e){} return {status:r.status,data}; }
+  finally{ clearTimeout(to); }
+}
+function mergeMood(a,b,da,db){
+  const m={...a}, del={...da};
+  for(const [d,r] of Object.entries(b||{})) if(!m[d] || (r.at||"")>(m[d].at||"")) m[d]=r;
+  for(const [d,t] of Object.entries(db||{})) if(!del[d] || t>del[d]) del[d]=t;
+  for(const [d,t] of Object.entries(del)) if(m[d] && (m[d].at||"")<t) delete m[d];
+  return {mood:m, del};
+}
+let ySyncing=false, ySyncTimer=null;
+function ySyncSoon(){ if(!Y.token) return; clearTimeout(ySyncTimer); ySyncTimer=setTimeout(()=>ySync(false),3000); }
+async function ySync(loud){
+  if(!Y.token||ySyncing) return; ySyncing=true; Y.err=""; renderY("sync");
+  try{
+    // 1) read the copy on Disk (if any)
+    let remote=null;
+    const dl=await yReq("GET", `${YD}/download?path=${encodeURIComponent(YFILE)}`);
+    if(dl.status===401||dl.status===403) throw new Error("auth");
+    if(dl.status===200 && dl.data?.href){ const f=await yReq("GET", dl.data.href, null, false); if(f.status===200) remote=typeof f.data==="string"?JSON.parse(f.data):f.data; }
+    else if(dl.status!==404) throw new Error("net");
+    // 2) merge
+    const before=JSON.stringify([S.mood,S.moodDel,S.cities]);
+    if(remote){
+      const mm=mergeMood(S.mood, remote.mood, S.moodDel, remote.moodDel); S.mood=mm.mood; S.moodDel=mm.del;
+      for(const [id,c] of Object.entries(remote.cities||{})) if(!S.cities[id]) S.cities[id]={...c,status:"ready"};
+    }
+    const changedHere=JSON.stringify([S.mood,S.moodDel,S.cities])!==before;
+    if(changedHere){ try{localStorage.setItem("mood",JSON.stringify(S.mood));localStorage.setItem("moodDel",JSON.stringify(S.moodDel));localStorage.setItem("cities",JSON.stringify(S.cities));}catch(e){}
+      if(PREF){ PREF.set({key:"mood",value:JSON.stringify(S.mood)}).catch(()=>{}); PREF.set({key:"moodDel",value:JSON.stringify(S.moodDel)}).catch(()=>{}); PREF.set({key:"cities",value:JSON.stringify(S.cities)}).catch(()=>{}); }
+      renderMood(); if(!$("moodSheet").hidden) renderMoodSheet(); }
+    // 3) write the merged copy back
+    const cities={}; for(const [id,c] of Object.entries(S.cities)) cities[id]={id,name:c.name,region:c.region||"",lat:c.lat,lon:c.lon,order:c.order};
+    if(remote&&remote.friends) for(const [k,f] of Object.entries(remote.friends)) if(!FR.list[k]&&!FR.removed[k]) FR.list[k]=f;
+    const friends={}; for(const [k,f] of Object.entries(FR.list)) friends[k]={k,name:f.name,added:f.added};
+    const body=JSON.stringify({app:"Метеодневник",v:1,updated:new Date().toISOString(),mood:S.mood,moodDel:S.moodDel,cities,friends});
+    if(!remote || JSON.stringify(remote.mood)!==JSON.stringify(S.mood) || JSON.stringify(remote.moodDel||{})!==JSON.stringify(S.moodDel) || Object.keys(remote.cities||{}).length!==Object.keys(cities).length || Object.keys(remote.friends||{}).length!==Object.keys(friends).length){
+      const up=await yReq("GET", `${YD}/upload?path=${encodeURIComponent(YFILE)}&overwrite=true`);
+      if(up.status===401||up.status===403) throw new Error("auth");
+      if(up.status!==200||!up.data?.href) throw new Error("net");
+      const put=await yReq("PUT", up.data.href, body, false);
+      if(put.status>=300) throw new Error("net");
+    }
+    Y.last=new Date().toISOString(); saveY();
+    saveFriends();
+    if(SH.on) await shareUpload().catch(()=>{});
+    if(loud) toast("Синхронизировано с Яндекс Диском");
+  }catch(e){
+    Y.err = e.message==="auth" ? "Доступ к Диску истёк или отозван — войдите заново." : "Нет связи с Яндекс Диском, попробую позже.";
+    if(e.message==="auth"){ Y.token=""; saveY(); }
+    if(loud) toast(Y.err);
+  }finally{ ySyncing=false; renderY(); }
+}
+const Y_REDIRECT = "https://sivkabkbkbkbk-boop.github.io/barometr/auth.html";
+function yAuthUrl(manual){
+  const base=`https://oauth.yandex.ru/authorize?response_type=token&client_id=${encodeURIComponent(Y.clientId)}`;
+  return manual ? base+"&redirect_uri="+encodeURIComponent("https://oauth.yandex.ru/verification_code")
+                : base+"&redirect_uri="+encodeURIComponent(Y_REDIRECT)+"&state="+(PREF?"app":"web");
+}
+function openLink(url){ if(/[?&#]k=/.test(url) && /friend/.test(url)) addFriendFromLink(url); else yTakeToken(url); }
+// the login page sends the user back with barometr://auth?access_token=…
+function yTakeToken(url){
+  const m=String(url||"").match(/access_token=([^&#\s]+)/); if(!m) return false;
+  Y.token=decodeURIComponent(m[1]); Y.err=""; saveY();
+  toast("Яндекс Диск подключён"); renderY(); ySync(true); return true;
+}
+{
+  const AppU = PREF ? window.Capacitor.Plugins?.App : null;
+  if(AppU){
+    AppU.addListener("appUrlOpen", e=>openLink(e.url));
+    AppU.getLaunchUrl?.().then(r=>{ if(r&&r.url) openLink(r.url); }).catch(()=>{});
+  }
+}
+function renderY(state){
+  const box=$("ysync"); if(!box) return;
+  const head=(sub,cls)=>`<div class="yh"><div class="ylogo">Я</div><div><div class="yt">Яндекс Диск</div><div class="ys ${cls||""}">${sub}</div></div></div>`;
+  if(Y.token){
+    const sub = state==="sync"||ySyncing ? "синхронизирую…" : Y.err ? Y.err : Y.last ? `синхронизировано ${fmtDM(new Date(Y.last))}, ${fmtHM(new Date(Y.last))}` : "подключён";
+    box.innerHTML=head(sub, Y.err?"bad":"ok")+`<div class="row"><button class="btn" data-y="sync">Синхронизировать сейчас</button><button class="btn ghost" data-y="off">Отключить</button></div>`;
+    return;
+  }
+  if(!Y.clientId){
+    box.innerHTML=head(Y.err||"отметки сохраняются в вашей папке на Диске и видны на любом телефоне", Y.err?"bad":"")+
+    `<ol><li>Откройте <a href="https://oauth.yandex.ru/client/new" target="_blank" rel="noopener">oauth.yandex.ru/client/new</a> и войдите в Яндекс ID.</li>
+    <li>Название: <b>Метеодневник</b>. Платформа: <b>Веб-сервисы</b>, в поле Redirect URI нажмите <b>«Подставить URL для отладки»</b>.</li>
+    <li>В «Доступ к данным» найдите <b>Яндекс Диск REST API</b> и отметьте <b>«Доступ к папке приложения на Диске»</b>. Укажите почту и нажмите <b>«Создать приложение»</b>.</li>
+    <li>Скопируйте <b>ClientID</b> и вставьте сюда:</li></ol>
+    <div class="row"><input id="yClient" placeholder="ClientID" autocomplete="off" aria-label="ClientID приложения Яндекса"><button class="btn" data-y="client">Далее</button></div>`;
+    return;
+  }
+  box.innerHTML=head(Y.err||"отметки и города будут храниться в папке приложения на вашем Диске и появятся на любом телефоне после входа", Y.err?"bad":"")+
+  `<a class="btn" href="${yAuthUrl(false)}" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Войти через Яндекс</a>
+  <details><summary class="ys" style="cursor:pointer">Не вернулось в приложение? Вставить код вручную</summary>
+    <ol style="margin-top:8px"><li><a href="${yAuthUrl(true)}" target="_blank" rel="noopener">Открыть вход с кодом ›</a> — разрешите доступ, Яндекс покажет код.</li><li>Скопируйте код и вставьте сюда:</li></ol>
+    <div class="row" style="margin-top:6px"><input id="yToken" placeholder="код доступа" autocomplete="off" aria-label="Код доступа Яндекса"><button class="btn" data-y="token">Подключить</button></div>
+  </details>`;
+}
+$("ysync").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-y]"); if(!b) return;
+  const a=b.dataset.y;
+  if(a==="client"){ const v=$("yClient").value.trim(); if(!/^[0-9a-f]{32}$/i.test(v)){ toast("ClientID — это 32 символа из цифр и латинских букв a–f."); return; } Y.clientId=v; Y.err=""; saveY(); renderY(); }
+  if(a==="reset"){ Y.clientId=""; saveY(); renderY(); }
+  if(a==="token"){ let v=$("yToken").value.trim(); const m=v.match(/access_token=([^&\s]+)/); if(m) v=decodeURIComponent(m[1]); if(v.length<20){ toast("Код доступа слишком короткий — скопируйте его целиком."); return; } Y.token=v; Y.err=""; saveY(); await ySync(true); }
+  if(a==="sync") ySync(true);
+  if(a==="off"){ Y.token=""; Y.last=""; saveY(); renderY(); toast("Яндекс Диск отключён. Отметки остались на телефоне."); }
+});
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && Y.token) ySync(false); });
+
+/* ---------- friends: a public folder on each person's Disk with only name, city and smileys ---------- */
+const SH = Object.assign({on:false, key:"", name:"", url:""}, loadJSON("share",{})||{});
+const FR = {list: loadJSON("friends",{})||{}, removed: loadJSON("friendsRemoved",{})||{}, busy:false, lastFetch:0};
+const saveShare=()=>store.set("share",JSON.stringify(SH));
+function saveFriends(){ const out={}; for(const [k,f] of Object.entries(FR.list)) out[k]={k,name:f.name,added:f.added,data:f.data,fetched:f.fetched}; store.set("friends",JSON.stringify(out)); store.set("friendsRemoved",JSON.stringify(FR.removed)); }
+const FRIEND_PAGE="https://sivkabkbkbkbk-boop.github.io/barometr/friend.html";
+function shareLink(){ return `${FRIEND_PAGE}#k=${encodeURIComponent(SH.key)}&n=${encodeURIComponent(SH.name||"")}`; }
+async function shareUpload(){
+  // only what friends need: name, city and the last 120 days of smileys
+  const since=isoDay(new Date(Date.now()-120*DAY)), mood={};
+  for(const [d,r] of Object.entries(S.mood)) if(d>=since) mood[d]=r.v;
+  const body=JSON.stringify({app:"Метеодневник",v:1,name:SH.name||"Друг",city:cityOf(S.slug).name,updated:new Date().toISOString(),mood});
+  const up=await yReq("GET", `${YD}/upload?path=${encodeURIComponent("app:/share/mood.json")}&overwrite=true`);
+  if(up.status!==200||!up.data?.href) throw new Error(up.status===401||up.status===403?"auth":"net");
+  const put=await yReq("PUT", up.data.href, body, false); if(put.status>=300) throw new Error("net");
+}
+async function shareStart(){
+  if(!Y.token){ toast("Сначала подключите Яндекс Диск — выше в этом окне."); return; }
+  const nm=($("shName")?.value||SH.name||"").trim(); if(!nm){ toast("Напишите имя — его увидят друзья."); $("shName")?.focus(); return; }
+  SH.name=nm.slice(0,40); renderFriends("busy");
+  try{
+    await yReq("PUT", `${YD}?path=${encodeURIComponent("app:/share")}`);                       // folder (409 if it exists — fine)
+    await shareUpload();
+    const pub=await yReq("PUT", `${YD}/publish?path=${encodeURIComponent("app:/share")}`);
+    if(pub.status>=300) throw new Error(pub.status===401||pub.status===403?"auth":"net");
+    const info=await yReq("GET", `${YD}?path=${encodeURIComponent("app:/share")}&fields=public_key,public_url`);
+    if(!info.data?.public_key) throw new Error("net");
+    SH.on=true; SH.key=info.data.public_key; SH.url=info.data.public_url||""; saveShare(); renderFriends();
+    shareSend();
+  }catch(e){ renderFriends(); toast(e.message==="auth"?"Яндекс не дал открыть доступ к папке. Отключите и снова подключите Диск.":"Не получилось открыть доступ — нет связи с Яндекс Диском."); }
+}
+async function shareSend(){
+  const text=`${SH.name} делится самочувствием в «Метеодневнике». Откройте ссылку, чтобы добавить в друзья:\n${shareLink()}`;
+  const Sh=window.Capacitor?.Plugins?.Share;
+  try{ if(Sh){ await Sh.share({title:"Метеодневник", text, dialogTitle:"Отправить другу"}); return; } }catch(e){ if(String(e).includes("cancel")) return; }
+  try{ if(navigator.share){ await navigator.share({title:"Метеодневник", text}); return; } }catch(e){ return; }
+  try{ await navigator.clipboard.writeText(text); toast("Ссылка скопирована — вставьте её в сообщение другу."); }catch(e){ toast(shareLink()); }
+}
+async function shareStop(){
+  renderFriends("busy");
+  try{ await yReq("PUT", `${YD}/unpublish?path=${encodeURIComponent("app:/share")}`); }catch(e){}
+  SH.on=false; SH.key=""; SH.url=""; saveShare(); renderFriends(); toast("Доступ закрыт: старая ссылка больше не работает.");
+}
+function parseFriendLink(url){
+  const s=String(url||""); const m=s.match(/[?&#]k=([^&#\s]+)/); if(!m) return null;
+  const n=s.match(/[?&#]n=([^&#\s]*)/); return {k:decodeURIComponent(m[1]), name:n?decodeURIComponent(n[1]).slice(0,40):""};
+}
+async function addFriendFromLink(url){
+  const f=parseFriendLink(url); if(!f){ toast("Это не похоже на ссылку «Метеодневника»."); return; }
+  if(f.k===SH.key){ toast("Это ваша собственная ссылка."); return; }
+  const had=!!FR.list[f.k];
+  FR.list[f.k]=Object.assign({k:f.k,name:f.name||"Друг",added:new Date().toISOString()}, FR.list[f.k]||{}); delete FR.removed[f.k]; saveFriends();
+  await fetchFriend(FR.list[f.k]);
+  toast(had?`${FR.list[f.k].name} уже в друзьях — обновил отметки.`:`${FR.list[f.k].name} добавлен(а) в друзья`);
+  ySyncSoon();
+  if($("moodSheet").hidden){ $("moodPop").hidden=true; openMoodSheet(); } else renderFriends();
+}
+async function fetchFriend(f){
+  try{
+    const dl=await yReq("GET", `https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=${encodeURIComponent(f.k)}&path=${encodeURIComponent("/mood.json")}`, null, false);
+    if(dl.status===404||dl.status===403){ f.gone=true; return; }
+    if(dl.status!==200||!dl.data?.href) return;
+    const r=await yReq("GET", dl.data.href, null, false); if(r.status!==200) return;
+    const data=typeof r.data==="string"?JSON.parse(r.data):r.data;
+    if(data&&data.mood){ f.data={name:data.name, city:data.city, mood:data.mood, updated:data.updated}; f.fetched=new Date().toISOString(); f.gone=false; if(data.name) f.name=data.name; }
+  }catch(e){}
+}
+async function fetchFriends(force){
+  if(FR.busy) return; if(!force && Date.now()-FR.lastFetch<10*60*1000) return;
+  const list=Object.values(FR.list); if(!list.length) return;
+  FR.busy=true; FR.lastFetch=Date.now();
+  await Promise.all(list.map(fetchFriend)); FR.busy=false; saveFriends();
+  if(!$("moodSheet").hidden) renderFriends();
+}
+function renderFriends(state){
+  const box=$("friends"); if(!box) return;
+  const today=new Date(), days=[]; for(let i=13;i>=0;i--) days.push(isoDay(new Date(+today-i*DAY)));
+  const esc2=esc;
+  let h="";
+  // sharing controls
+  if(state==="busy") h+=`<div class="fbox"><div class="hint">Подождите…</div></div>`;
+  else if(!SH.on) h+=`<div class="fbox"><div class="hint">Друзья увидят только ваше имя, город и смайлики по дням. Нужен подключённый Яндекс Диск.</div>
+    <div class="row"><input id="shName" placeholder="Ваше имя для друзей" value="${esc2(SH.name||"")}" maxlength="40" autocomplete="off" aria-label="Ваше имя для друзей"><button class="btn" data-f="start">Поделиться</button></div></div>`;
+  else h+=`<div class="fbox"><div class="row"><button class="btn" data-f="send">Отправить ссылку другу</button><button class="btn ghost" data-f="stop">Перестать делиться</button></div>
+    <div class="hint">Вы делитесь отметками как <b>${esc2(SH.name)}</b>. Отправьте ссылку во ВКонтакте, Telegram или по SMS.</div></div>`;
+  // comparison grid
+  const fl=Object.values(FR.list);
+  if(fl.length){
+    const cell=(v,d)=>`<td class="${d===days[13]?"today":""}">${v?MOOD[v].e:""}</td>`;
+    const rows=[[`Я`, cityOf(S.slug).name, d=>S.mood[d]?.v]].concat(fl.map(f=>[f.name||"Друг", f.gone?"ссылка закрыта":(f.data?.city||"…"), d=>f.data?.mood?.[d]]));
+    h+=`<div class="fbox"><div class="fgrid"><table><thead><tr><th></th>${days.map(d=>`<th>${+d.slice(8)}</th>`).join("")}</tr></thead><tbody>`+
+      rows.map(([n,c,get])=>`<tr><th class="nm">${esc2(n)}<small>${esc2(c)}</small></th>${days.map(d=>cell(get(d),d)).join("")}</tr>`).join("")+`</tbody></table></div>`;
+    // coincidences over the last 60 days
+    const since=isoDay(new Date(Date.now()-60*DAY));
+    h+=`<div class="fins">`+fl.map(f=>{
+      const fm=f.data?.mood||{}; let both=0,same=0,bad=[];
+      for(const [d,r] of Object.entries(S.mood)){ if(d<since||!fm[d]) continue; both++; if(fm[d]===r.v) same++; if(fm[d]===1&&r.v===1) bad.push(d); }
+      let t;
+      if(f.gone) t=`${esc2(f.name)} закрыл(а) доступ.`;
+      else if(!f.data) t=`${esc2(f.name)}: загружаю отметки…`;
+      else if(both<3) t=`<b>${esc2(f.name)}</b>: пока мало общих дней (${both}).`;
+      else t=`<b>${esc2(f.name)}</b>: совпало ${same} из ${both} дней (${Math.round(same/both*100)}%)`+(bad.length?`, обоим было плохо: ${bad.sort().slice(-4).map(d=>fmtDM(new Date(d+"T12:00:00"))).join(", ")}`:"")+".";
+      return `<div class="fin"><span>${t}</span><button class="x" data-del="${esc2(f.k)}" aria-label="Убрать ${esc2(f.name)} из друзей">×</button></div>`;
+    }).join("")+`</div></div>`;
+  }
+  h+=`<div class="fbox"><div class="row"><input id="frLink" placeholder="Вставьте ссылку от друга" autocomplete="off" aria-label="Ссылка от друга"><button class="btn ghost" data-f="add">Добавить</button></div></div>`;
+  box.innerHTML=h;
+  const g=box.querySelector(".fgrid"); if(g) g.scrollLeft=g.scrollWidth;   // today on screen
+}
+$("friends").addEventListener("click",e=>{
+  const del=e.target.closest("[data-del]"); if(del){ const k=del.dataset.del; FR.removed[k]=new Date().toISOString(); delete FR.list[k]; saveFriends(); ySyncSoon(); renderFriends(); return; }
+  const b=e.target.closest("[data-f]"); if(!b) return;
+  const a=b.dataset.f;
+  if(a==="start") shareStart();
+  if(a==="send") shareSend();
+  if(a==="stop") shareStop();
+  if(a==="add"){ const v=$("frLink").value.trim(); if(v) addFriendFromLink(v); }
+});
+// website version: friend.html leaves the link here
+try{ const pend=localStorage.getItem("pendingFriend"); if(pend){ localStorage.removeItem("pendingFriend"); setTimeout(()=>addFriendFromLink(pend), 1500); } }catch(e){}
+
 /* ---------- gestures: pull down to refresh, swipe a sheet down to close ---------- */
 const ptr=$("ptr"), PULL=70;
 const G={y0:0,x0:0,t0:0,dy:0,mode:null,sheet:null};
@@ -1382,7 +1795,7 @@ function scrollableParent(el, stop){ for(let n=el; n&&n!==stop; n=n.parentElemen
 addEventListener("touchstart",e=>{
   if(e.touches.length>1){ G.mode=null; return; }
   const t=e.touches[0]; G.y0=t.clientY; G.x0=t.clientX; G.t0=performance.now(); G.dy=0; G.mode=null; G.sheet=null;
-  if(e.target.closest(".rmap,.rctl")) return;
+  if(e.target.closest(".rmap,.rctl") || !$("moodPop").hidden) return;
   if(openSheet){
     if(e.target.closest("#chart,input,.tabs,.chips")) return;
     const sc=scrollableParent(e.target, openSheet);
@@ -1430,27 +1843,67 @@ document.addEventListener("keydown",e=>{
   e.preventDefault(); openHistory(t.dataset.metric||"temp");
 });
 
-/* ---------- native app (Android build): daily reminder ---------- */
+/* ---------- native app (Android build): reminder in the notification shade ---------- */
 const NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 const LN = NATIVE ? window.Capacitor.Plugins?.LocalNotifications : null;
+const REM_DAYS = 30;                                      // scheduled ahead; renewed every time the app opens
+async function scheduleReminders(){
+  if(!LN) return;
+  const r=loadJSON("remind",{on:false,time:"20:00"});
+  try{ const pend=await LN.getPending(); if(pend.notifications?.length) await LN.cancel({notifications:pend.notifications.map(n=>({id:n.id}))}); }catch(e){}
+  if(!r.on) return;
+  const [hh,mm]=(r.time||"20:00").split(":").map(Number), now=new Date(), list=[];
+  for(let i=0;i<REM_DAYS;i++){
+    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i,hh,mm,0);
+    if(d<=now) continue;
+    if(i===0 && S.mood[isoDay(now)]) continue;             // already marked today: no reminder
+    list.push({id:100+i, title:"Как вы себя чувствуете сегодня?", body:"Нажмите на смайлик — отметка сохранится.",
+      schedule:{at:d, allowWhileIdle:true}, channelId:"mood", actionTypeId:"MOOD", smallIcon:"ic_stat_barometr", iconColor:"#7fd6c8", extra:{kind:"mood"}});
+  }
+  if(list.length) try{ await LN.schedule({notifications:list}); }catch(e){}
+}
 if(LN){
   $("remind").hidden=false;
   const r=loadJSON("remind",{on:false,time:"20:00"});
   $("remOn").checked=!!r.on; $("remTime").value=r.time||"20:00";
+  LN.createChannel?.({id:"mood", name:"Самочувствие", description:"Ежедневный вопрос о самочувствии", importance:4, visibility:1, vibration:true}).catch(()=>{});
+  LN.registerActionTypes({types:[{id:"MOOD", actions:[{id:"m3",title:"😊 Хорошо"},{id:"m2",title:"😐 Так себе"},{id:"m1",title:"😣 Плохо"}]}]}).catch(()=>{});
+  // a smiley pressed in the notification shade: save it and put the app back
+  LN.addListener("localNotificationActionPerformed", ev=>{
+    const a=ev.actionId||"";
+    if(/^m[123]$/.test(a)){
+      const v=+a[1]; saveMood(isoDay(new Date()), v); $("moodPop").hidden=true;
+      toast(`${MOOD[v].e} Записано на сегодня`);
+      setTimeout(()=>window.Capacitor.Plugins?.App?.minimizeApp?.(), 1300);
+    } else setTimeout(showMoodPop, 300);                    // the notification itself was tapped
+  });
   async function applyReminder(){
-    const on=$("remOn").checked, time=$("remTime").value||"20:00", [hh,mm]=time.split(":").map(Number);
+    const on=$("remOn").checked, time=$("remTime").value||"20:00";
     store.set("remind",JSON.stringify({on,time}));
-    try{ await LN.cancel({notifications:[{id:1}]}); }catch(e){}
-    if(!on) return;
-    try{
-      let p=await LN.checkPermissions(); if(p.display!=="granted") p=await LN.requestPermissions();
-      if(p.display!=="granted"){ $("remOn").checked=false; store.set("remind",JSON.stringify({on:false,time})); toast("Разрешите уведомления для «Барометра» в настройках Android."); return; }
-      await LN.schedule({notifications:[{id:1,title:"Барометр неба",body:"Как вы себя чувствуете сегодня? Отметьте одним касанием.",schedule:{on:{hour:hh,minute:mm}}}]});
-      toast(`Напомню каждый день в ${time}`);
-    }catch(e){ toast("Не удалось включить напоминание."); }
+    if(on){
+      try{ let p=await LN.checkPermissions(); if(p.display!=="granted") p=await LN.requestPermissions();
+        if(p.display!=="granted"){ $("remOn").checked=false; store.set("remind",JSON.stringify({on:false,time})); toast("Разрешите уведомления для «Метеодневника» в настройках Android."); return; } }catch(e){}
+    }
+    await scheduleReminders();
+    if(on) toast(`Напомню в шторке каждый день в ${time}`);
   }
   $("remOn").addEventListener("change",applyReminder);
-  $("remTime").addEventListener("change",()=>{ if($("remOn").checked) applyReminder(); else store.set("remind",JSON.stringify({on:false,time:$("remTime").value})); });
+  $("remTime").addEventListener("change",()=>{ store.set("remind",JSON.stringify({on:$("remOn").checked,time:$("remTime").value})); scheduleReminders(); });
+}
+
+/* ---------- Android Back button (native app) ---------- */
+{
+  const AppP = PREF ? window.Capacitor.Plugins?.App : null;
+  if(AppP){
+    let lastBack=0;
+    AppP.addListener("backButton", ()=>{
+      if(!$("moodPop").hidden){ foldMoodPop(); return; }                                  // the question is open: fold it
+      if(openSheet){ if(openSheet.id==="mapSheet") stopPlay(); hideSheet(); return; }   // a window is open: close it
+      const now=Date.now();
+      if(now-lastBack<2000){ AppP.exitApp(); return; }                                    // second press: leave
+      lastBack=now; toast("Нажмите «Назад» ещё раз, чтобы выйти");
+    });
+  }
 }
 
 /* ---------- install + offline ---------- */
@@ -1459,12 +1912,47 @@ addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); installEv=e; $("
 $("installBtn").addEventListener("click",async()=>{ if(!installEv) return; installEv.prompt(); await installEv.userChoice; installEv=null; $("installBtn").hidden=true; });
 if(!NATIVE && "serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 
+/* ---------- restore from the Android backup (after a reinstall or on a new phone) ---------- */
+async function restoreFromBackup(){
+  if(!PREF) return false;
+  let changed=false;
+  try{
+    for(const k of BACKUP_KEYS){
+      const {value}=await PREF.get({key:k}); const local=store.get(k);
+      if(value==null){ if(local!=null) PREF.set({key:k,value:local}).catch(()=>{}); continue; }   // first run of this version: copy up
+      if(k==="mood"){
+        // merge day by day, the later mark wins
+        const a=loadJSON("mood",{})||{}, b=JSON.parse(value)||{}, m={...a};
+        for(const [d,r] of Object.entries(b)) if(!m[d] || (r.at||"")>(m[d].at||"")) m[d]=r;
+        const out=JSON.stringify(m); if(out!==local){ try{localStorage.setItem("mood",out)}catch(e){} changed=true; }
+        if(out!==value) PREF.set({key:"mood",value:out}).catch(()=>{});
+        S.mood=m;
+      } else if(local==null){ try{localStorage.setItem(k,value)}catch(e){} changed=true; }
+    }
+  }catch(e){}
+  return changed;
+}
+
 /* ---------- boot ---------- */
 S.feed[S.slug]=loadJSON("feed:"+S.slug,null)||undefined;
 radarFromCache(S.slug);
 render();
-refreshNow(true);
-if(!store.get("gpsDone") && !store.get("cities")){ saveCities(); setTimeout(locate, 1200); }
+(async()=>{
+  const restored=await restoreFromBackup();
+  if(restored){
+    const c=loadJSON("cities",null); if(c){ S.cities=c; for(const x of Object.values(S.cities)) x.status="ready"; }
+    const sl=store.get("city"); if(sl&&S.cities[sl]) S.slug=sl;
+    S.feed[S.slug]=loadJSON("feed:"+S.slug,null)||undefined;
+    renderMood(); render();
+    if(Object.keys(S.mood).length) toast(`Восстановлено из резервной копии: ${Object.keys(S.mood).length} дн. самочувствия`);
+  }
+  refreshNow(true);
+  if(!store.get("gpsDone") && !store.get("cities")){ saveCities(); setTimeout(locate, 1200); }
+  if(Y.token) setTimeout(()=>ySync(false), 1500);
+  scheduleReminders();
+  renderMood();
+  if(!S.mood[isoDay(new Date())] && store.get("moodLater")!==isoDay(new Date())) setTimeout(showMoodPop, 900);
+})();
 setInterval(render, 10*60*1000);
 setInterval(()=>{ if(!document.hidden) refreshNow(true); }, 30*60*1000);
 </script>

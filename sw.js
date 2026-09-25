@@ -1,5 +1,5 @@
 // Барометр неба — работа без интернета
-const SHELL = "barometr-shell-v1";
+const SHELL = "barometr-shell-v2";
 const DATA = "barometr-data-v1";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png"];
 
