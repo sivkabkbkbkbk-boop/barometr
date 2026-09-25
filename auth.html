@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Барометр неба — вход</title>
+<style>
+  :root{color-scheme:dark}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1726;color:#eef3f8;font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px;box-sizing:border-box;text-align:center}
+  .box{max-width:360px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  h1{font-size:20px;margin:0}
+  p{margin:0;color:#9fb1c5;font-size:14px}
+  a.btn{display:inline-block;background:#eef3f8;color:#0d1726;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:12px}
+  .ok{font-size:42px}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <div class="ok">⏳</div>
+  <h1>Подключаю Яндекс Диск…</h1>
+</div>
+<script>
+// Yandex returns here after the user allows access: #access_token=...&state=app|web
+(function(){
+  var h = new URLSearchParams(location.hash.slice(1)), q = new URLSearchParams(location.search);
+  var token = h.get("access_token"), state = h.get("state") || q.get("state") || "app", err = h.get("error") || q.get("error");
+  var box = document.getElementById("box");
+  if (!token) {
+    box.innerHTML = '<div class="ok">⚠️</div><h1>Вход не завершён</h1><p>' + (err === "access_denied" ? "Доступ не был разрешён." : "Яндекс не передал код доступа.") + ' Вернитесь в «Барометр неба» и попробуйте ещё раз.</p>';
+    return;
+  }
+  history.replaceState(null, "", location.pathname);           // do not keep the token in the address bar
+  if (state === "web") {
+    // website version (same site): save and go back to the app page
+    try { var y = JSON.parse(localStorage.getItem("yandex") || "{}"); y.token = token; y.last = ""; localStorage.setItem("yandex", JSON.stringify(y)); } catch (e) {}
+    location.replace("./");
+    return;
+  }
+  // Android app: hand the token over through the app's own link
+  var link = "barometr://auth?access_token=" + encodeURIComponent(token);
+  var intent = "intent://auth?access_token=" + encodeURIComponent(token) + "#Intent;scheme=barometr;package=ru.barometr.neba;end";
+  box.innerHTML = '<div class="ok">✅</div><h1>Готово</h1><p>Возвращаю в «Барометр неба». Если приложение не открылось само, нажмите кнопку.</p><a class="btn" href="' + intent + '">Вернуться в приложение</a>';
+  setTimeout(function(){ location.href = intent; }, 150);
+  setTimeout(function(){ location.href = link; }, 1500);
+})();
+</script>
+</body>
+</html>
