@@ -25,18 +25,21 @@
   var h = new URLSearchParams(location.hash.slice(1)), q = new URLSearchParams(location.search);
   var token = h.get("access_token"), state = h.get("state") || q.get("state") || "app", err = h.get("error") || q.get("error");
   var box = document.getElementById("box");
+  // the page may be opened again later (Back button, tab list) — the token of this visit is kept for a few minutes
+  try{ if(token){ sessionStorage.setItem("mtdTok", JSON.stringify({t:token,s:state,at:Date.now()})); }
+       else { var sv=JSON.parse(sessionStorage.getItem("mtdTok")||"null"); if(sv&&Date.now()-sv.at<10*60*1000){ token=sv.t; state=sv.s; } } }catch(e){}
+  var openApp = "intent://open#Intent;scheme=barometr;package=ru.barometr.neba;end";
   if (!token) {
-    box.innerHTML = '<div class="ok">⚠️</div><h1>Вход не завершён</h1><p>' + (err === "access_denied" ? "Доступ не был разрешён." : "Яндекс не передал код доступа.") + ' Вернитесь в «Метеодневник» и попробуйте ещё раз.</p>';
+    box.innerHTML = '<div class="ok">⚠️</div><h1>Вход не завершён</h1><p>' + (err === "access_denied" ? "Доступ не был разрешён." : "Эта страница открыта без кода от Яндекса.") +
+      '</p><p>Если приложение уже написало «Яндекс Диск подключён» — всё в порядке, эту вкладку можно закрыть. Если нет — вернитесь в «Метеодневник» и нажмите «Войти через Яндекс» ещё раз.</p><a class="btn" href="' + openApp + '">Открыть «Метеодневник»</a>';
     return;
   }
   history.replaceState(null, "", location.pathname);           // do not keep the token in the address bar
   if (state === "web") {
-    // website version (same site): save and go back to the app page
     try { var y = JSON.parse(localStorage.getItem("yandex") || "{}"); y.token = token; y.last = ""; localStorage.setItem("yandex", JSON.stringify(y)); } catch (e) {}
     location.replace("./");
     return;
   }
-  // Android app: hand the token over through the app's own link
   var link = "barometr://auth?access_token=" + encodeURIComponent(token);
   var intent = "intent://auth?access_token=" + encodeURIComponent(token) + "#Intent;scheme=barometr;package=ru.barometr.neba;end";
   box.innerHTML = '<div class="ok">✅</div><h1>Готово</h1><p>Возвращаю в «Метеодневник». Если приложение не открылось само, нажмите кнопку.</p><a class="btn" href="' + intent + '">Вернуться в приложение</a>';
