@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка источников</title>
+<style>
+  :root{color-scheme:dark}
+  body{margin:0;background:#0d1726;color:#eef3f8;font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px}
+  h1{font-size:19px;margin:0 0 4px}
+  p{color:#9fb1c5;margin:0 0 14px;font-size:13px}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;background:#172538;margin-bottom:6px}
+  .n{font-weight:600}.d{font-size:12px;color:#9fb1c5}
+  .r{font-family:ui-monospace,monospace;font-size:13px;white-space:nowrap;align-self:center}
+  .ok{color:#8be38f}.bad{color:#ff7a6b}.wait{color:#9fb1c5}
+  button{margin-top:10px;border:0;border-radius:10px;padding:10px 16px;background:#eef3f8;color:#0d1726;font-weight:600;font-size:15px}
+</style>
+</head>
+<body>
+<h1>Проверка источников</h1>
+<p>Откройте эту страницу без VPN и дождитесь, пока все строки заполнятся. Потом пришлите скриншот.</p>
+<div id="list"></div>
+<button id="again">Проверить ещё раз</button>
+<script>
+const T = [
+  // [название, описание, url, тип]
+  ["Open-Meteo прогноз","погода сейчас и на 2 дня","https://api.open-meteo.com/v1/forecast?latitude=58.52&longitude=31.27&hourly=temperature_2m&forecast_days=1","json"],
+  ["Open-Meteo архив","история погоды","https://archive-api.open-meteo.com/v1/archive?latitude=58.52&longitude=31.27&start_date=2026-09-01&end_date=2026-09-02&hourly=temperature_2m","json"],
+  ["Open-Meteo поиск","поиск городов","https://geocoding-api.open-meteo.com/v1/search?name=Novgorod&count=1","json"],
+  ["MET Norway","запасной прогноз","https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=58.52&lon=31.27","json"],
+  ["NOAA Kp","геомагнитный фон","https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json","json"],
+  ["GFZ Kp","архив геомагнитного фона","https://kp.gfz.de/app/json/?start=2026-09-01T00:00:00Z&end=2026-09-01T23:59:59Z&index=Kp","json"],
+  ["BigDataCloud","название места по GPS","https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=58.52&longitude=31.27&localityLanguage=ru","json"],
+  ["Esri карта","подложка карты (сейчас)","https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/7/37/73","img"],
+  ["OpenStreetMap","запасная карта","https://tile.openstreetmap.org/7/75/37.png","img"],
+  ["2ГИС","запасная карта (русские подписи)","https://tile2.maps.2gis.com/tiles?x=75&y=37&z=7&v=1","img"],
+  ["Google Fonts","шрифты","https://fonts.googleapis.com/css2?family=Onest&display=swap","css"],
+];
+function probe(url, type){
+  const t0 = performance.now();
+  if(type==="img") return new Promise(res=>{
+    const im=new Image(); const to=setTimeout(()=>{im.src="";res({ok:false,msg:"нет ответа"});},10000);
+    im.onload=()=>{clearTimeout(to);res({ok:true,ms:performance.now()-t0});};
+    im.onerror=()=>{clearTimeout(to);res({ok:false,msg:"ошибка"});};
+    im.src=url+(url.includes("?")?"&":"?")+"_="+Date.now();
+  });
+  const ac=new AbortController(); const to=setTimeout(()=>ac.abort(),10000);
+  return fetch(url,{signal:ac.signal,cache:"no-store"}).then(r=>{clearTimeout(to);return r.ok?{ok:true,ms:performance.now()-t0}:{ok:false,msg:"код "+r.status};})
+    .catch(e=>{clearTimeout(to);return {ok:false,msg:e.name==="AbortError"?"нет ответа":"заблокирован"};});
+}
+async function run(){
+  const L=document.getElementById("list");
+  L.innerHTML=T.map((t,i)=>`<div class="row"><div><div class="n">${t[0]}</div><div class="d">${t[1]}</div></div><div class="r wait" id="r${i}">проверяю…</div></div>`).join("");
+  await Promise.all(T.map(async (t,i)=>{
+    const r=await probe(t[2],t[3]); const el=document.getElementById("r"+i);
+    el.className="r "+(r.ok?"ok":"bad");
+    el.textContent=r.ok?`✓ ${(r.ms/1000).toFixed(1)} с`:`✗ ${r.msg}`;
+  }));
+}
+document.getElementById("again").onclick=run;
+run();
+</script>
+</body>
+</html>
