@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Скачать «Не18мнеуже»</title>
+<meta property="og:title" content="Скачать «Не18мнеуже»">
+<meta property="og:description" content="Дневник самочувствия и погоды для Android. Нажми, чтобы скачать.">
+<meta property="og:image" content="https://sivkabkbkbkbk-boop.github.io/barometr/icon-512.png">
+<link rel="icon" href="icon-192.png">
+<style>
+  :root{color-scheme:light}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(#ffdc8a,#ffb04a);color:#2a2233;font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px;box-sizing:border-box;text-align:center}
+  .box{max-width:380px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  img{width:112px;height:112px;border-radius:26px;box-shadow:0 8px 24px rgba(122,62,0,.3)}
+  h1{font-size:22px;margin:0}
+  ol{text-align:left;margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+  a.btn{display:block;width:100%;box-sizing:border-box;background:#1d3557;color:#fff;text-decoration:none;font-weight:600;padding:14px 18px;border-radius:14px}
+  small{opacity:.75;font-size:13px}
+</style>
+</head>
+<body>
+<div class="box">
+  <img src="icon-512.png" alt="">
+  <h1>«Не18мнеуже»</h1>
+  <p id="t">Скачивание начинается…</p>
+  <a class="btn" id="go" href="https://github.com/sivkabkbkbkbk-boop/barometr-app/releases/latest/download/barometr.apk">⬇️ Скачать для Android</a>
+  <ol>
+    <li>Откройте скачанный файл <b>barometr.apk</b>.</li>
+    <li>Разрешите установку из этого источника.</li>
+    <li>Если Android предупредит, нажмите «Подробнее» → «Всё равно установить».</li>
+  </ol>
+  <small>Если скачивание зависло, откройте эту страницу в Яндекс Браузере.</small>
+</div>
+<script>
+  if(/Android/i.test(navigator.userAgent)) setTimeout(function(){ location.href=document.getElementById("go").href; }, 600);
+  else document.getElementById("t").textContent="Приложение для Android. Откройте эту ссылку на телефоне.";
+</script>
+</body>
+</html>

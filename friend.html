@@ -31,15 +31,17 @@
   if(!k){ document.getElementById("t").textContent="В ссылке нет данных приглашения. Попросите друга отправить её ещё раз."; return; }
   var q="k="+encodeURIComponent(k)+"&n="+encodeURIComponent(n)+(sc?"&s="+encodeURIComponent(sc):"");
   if(h.get("r")==="1") q+="&r=1";
-  var intent="intent://friend?"+q+"#Intent;scheme=barometr;package=ru.barometr.neba;end";
+  var APK="https://github.com/sivkabkbkbkbk-boop/barometr-app/releases/latest/download/barometr.apk";
+  // if the app is not installed, Chrome follows the fallback and the APK starts downloading at once
+  var intent="intent://friend?"+q+"#Intent;scheme=barometr;package=ru.barometr.neba;"+(h.get("r")==="1"?"":"S.browser_fallback_url="+encodeURIComponent(APK)+";")+"end";
   var who=n?("<b>"+n.replace(/[<>&"]/g,"")+"</b>"):"Твой друг";
   document.title=(n?n.replace(/[<>&"]/g,""):"Друг")+" хочет с тобой подружиться";
   box.innerHTML='<div class="em">🤝🌦</div><h1>'+who+(h.get("r")==="1"?' принял(а) твоё приглашение в друзья</h1>':' хочет с тобой подружиться и обмениваться своим состоянием</h1>')+
     '<p>В «Не18мнеуже» вы будете видеть самочувствие друг друга, сравнивать его с погодой и переписываться.</p>'+
     '<a class="btn" href="'+intent+'">Принять приглашение</a>'+
-    '<a class="btn ghost" href="https://github.com/sivkabkbkbkbk-boop/barometr-app/releases/latest">Скачать приложение для Android</a>'+
+    '<a class="btn ghost" href="'+APK+'">⬇️ Скачать приложение для Android</a>'+
     '<a class="btn ghost" id="web" href="./">Открыть веб-версию</a>'+
-    '<small>Если приложения ещё нет: скачайте его, установите, вернитесь к этому сообщению и нажмите «Принять приглашение».</small>';
+    '<small>Приложения ещё нет? Скачивание начнётся само (или нажмите «Скачать»). Откройте скачанный файл, разрешите установку, затем вернитесь к сообщению и нажмите «Принять приглашение».</small>';
   document.getElementById("web").addEventListener("click",function(){ try{ localStorage.setItem("pendingFriend", location.href); }catch(e){} });
   if(/Android/i.test(navigator.userAgent)) setTimeout(function(){ location.href=intent; }, 300);
 })();
