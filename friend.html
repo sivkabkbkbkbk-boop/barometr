@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Приглашение в друзья — Метеодневник</title>
-<meta property="og:title" content="Приглашение в друзья в «Метеодневнике»">
+<title>Приглашение в друзья — Не18мнеуже</title>
+<meta property="og:title" content="Приглашение в друзья в «Не18мнеуже»">
 <meta property="og:description" content="Друг хочет с тобой подружиться и обмениваться своим состоянием. Нажми, чтобы принять.">
 <style>
   :root{color-scheme:dark}
@@ -21,7 +21,7 @@
 <body>
 <div class="box" id="box">
   <div class="em">😊😐😣</div>
-  <h1 id="h">Приглашение в «Метеодневник»</h1>
+  <h1 id="h">Приглашение в «Не18мнеуже»</h1>
   <p id="t">Открываю приложение…</p>
 </div>
 <script>
@@ -35,7 +35,7 @@
   var who=n?("<b>"+n.replace(/[<>&"]/g,"")+"</b>"):"Твой друг";
   document.title=(n?n.replace(/[<>&"]/g,""):"Друг")+" хочет с тобой подружиться";
   box.innerHTML='<div class="em">🤝🌦</div><h1>'+who+(h.get("r")==="1"?' принял(а) твоё приглашение в друзья</h1>':' хочет с тобой подружиться и обмениваться своим состоянием</h1>')+
-    '<p>В «Метеодневнике» вы будете видеть самочувствие друг друга, сравнивать его с погодой и переписываться.</p>'+
+    '<p>В «Не18мнеуже» вы будете видеть самочувствие друг друга, сравнивать его с погодой и переписываться.</p>'+
     '<a class="btn" href="'+intent+'">Принять приглашение</a>'+
     '<a class="btn ghost" href="https://github.com/sivkabkbkbkbk-boop/barometr-app/releases/latest">Скачать приложение для Android</a>'+
     '<a class="btn ghost" id="web" href="./">Открыть веб-версию</a>'+

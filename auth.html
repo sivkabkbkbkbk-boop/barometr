@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Метеодневник — вход</title>
+<title>Не18мнеуже — вход</title>
 <style>
   :root{color-scheme:dark}
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0d1726;color:#eef3f8;font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px;box-sizing:border-box;text-align:center}
@@ -31,7 +31,7 @@
   var openApp = "intent://open#Intent;scheme=barometr;package=ru.barometr.neba;end";
   if (!token) {
     box.innerHTML = '<div class="ok">⚠️</div><h1>Вход не завершён</h1><p>' + (err === "access_denied" ? "Доступ не был разрешён." : "Эта страница открыта без кода от Яндекса.") +
-      '</p><p>Если приложение уже написало «Яндекс Диск подключён» — всё в порядке, эту вкладку можно закрыть. Если нет — вернитесь в «Метеодневник» и нажмите «Войти через Яндекс» ещё раз.</p><a class="btn" href="' + openApp + '">Открыть «Метеодневник»</a>';
+      '</p><p>Если приложение уже написало «Яндекс Диск подключён» — всё в порядке, эту вкладку можно закрыть. Если нет — вернитесь в «Не18мнеуже» и нажмите «Войти через Яндекс» ещё раз.</p><a class="btn" href="' + openApp + '">Открыть «Не18мнеуже»</a>';
     return;
   }
   history.replaceState(null, "", location.pathname);           // do not keep the token in the address bar
@@ -42,7 +42,7 @@
   }
   var link = "barometr://auth?access_token=" + encodeURIComponent(token);
   var intent = "intent://auth?access_token=" + encodeURIComponent(token) + "#Intent;scheme=barometr;package=ru.barometr.neba;end";
-  box.innerHTML = '<div class="ok">✅</div><h1>Готово</h1><p>Возвращаю в «Метеодневник». Если приложение не открылось само, нажмите кнопку.</p><a class="btn" href="' + intent + '">Вернуться в приложение</a>';
+  box.innerHTML = '<div class="ok">✅</div><h1>Готово</h1><p>Возвращаю в «Не18мнеуже». Если приложение не открылось само, нажмите кнопку.</p><a class="btn" href="' + intent + '">Вернуться в приложение</a>';
   setTimeout(function(){ location.href = intent; }, 150);
   setTimeout(function(){ location.href = link; }, 1500);
 })();
